@@ -46,52 +46,16 @@ namespace DICOMopener
         }
 
         /// <summary>
-        /// Returns Bitmap created from Array, consisted of 16 bit values
+        /// Returns Bitmap created from 16 bit matrix
         /// </summary>
-        /// <param name="matrix">Array as a matrix of image 16 bit intensities</param>
-        /// <param name="height">Number of strings in matrix</param>
-        /// <param name="width">Number of columns in matrix</param>
-        /// <param name="minIntencity">Default min intensity in any CT image</param>
-        /// <param name="maxIntencity">Default max intensity in any CT image</param>
+        /// <param name="matrix">Matrix of DICOM values</param>
+        /// <param name="height">Height of each slice in DICOM set</param>
+        /// <param name="width">Width in each slice in DICOM set</param>
+        /// <param name="minBorder">The bottom level of DICOM velues range</param>
+        /// <param name="maxBorder">The top level of DICOM values range</param>
+        /// <param name="minIntencity">The bottom level of electronic window</param>
+        /// <param name="maxIntencity">The top level of electronic window</param>
         /// <returns></returns>
-        //public static Bitmap GetBitmapFrom16Matrix(Array matrix, int height, int width, short minIntencity, short maxIntencity)
-        //{
-        //    Bitmap resultBitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
-
-        //    unsafe
-        //    {
-        //        byte BytesCount = 3;
-        //        BitmapData UpdatingData = resultBitmap.LockBits(new Rectangle(
-        //            new Point(0, 0), resultBitmap.Size), ImageLockMode.WriteOnly, resultBitmap.PixelFormat);
-
-        //        for (int i = 0; i < height; i++)
-        //        {
-        //            byte* BitmapRowPtr = (byte*)UpdatingData.Scan0 + i * UpdatingData.Stride;
-        //            for (int j = 0; j < width; j++)
-        //            {
-        //                int ColorPosition = j * BytesCount;
-        //                short valueFromArray = (short)matrix.GetValue(i, j);
-
-        //                // Exclude noninterest areas from an image
-        //                byte valueForImage = 0;
-        //                if (valueFromArray > 0)
-        //                    valueForImage = (byte)(((valueFromArray - minIntencity) / (float)(maxIntencity - minIntencity)) * 255);
-
-        //                // Include noninterest areas in an image
-        //                //byte valueForImage = (byte)(((valueFromArray - minIntencity) / (float)(maxIntencity - minIntencity)) * 255);
-
-        //                BitmapRowPtr[ColorPosition] = valueForImage;
-        //                BitmapRowPtr[ColorPosition + 1] = valueForImage;
-        //                BitmapRowPtr[ColorPosition + 2] = valueForImage;
-        //            }
-        //        }
-
-        //        resultBitmap.UnlockBits(UpdatingData);
-        //    }
-
-        //    return resultBitmap;
-        //}
-        
         public static Bitmap GetBitmapFrom16Matrix(Array matrix, int height, int width, short minBorder, short maxBorder, 
             short minIntencity, short maxIntencity)
         {

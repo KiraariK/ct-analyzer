@@ -12,10 +12,6 @@ namespace DICOMopener
 {
     public partial class MainForm : Form
     {
-        // Default min and max intencities for all CT-images
-        //private static short globalMinIntencity = 0;
-        //private short globalMaxIntencity = 3607;
-
         private string[] filenames;
         private Array[] dicomMatrices;
         private int imageMatrixHeight;
@@ -48,6 +44,9 @@ namespace DICOMopener
             FillEWindowParametersView();
         }
 
+        /// <summary>
+        /// Fills the controls of EWindow parameters on the Form
+        /// </summary>
         private void FillEWindowParametersView()
         {
             comboBox_EWindowType.SelectedItem = eWindow.WindowLabel;
@@ -76,6 +75,9 @@ namespace DICOMopener
             }
         }
 
+        /// <summary>
+        /// Reloads a seleted image
+        /// </summary>
         private void CurrentImageReloading()
         {
             if (dicomMatrices == null) // DICOM files are not loaded
@@ -134,22 +136,6 @@ namespace DICOMopener
             imageMatrixHeight = aProcessor.GetStringsCount();
             imageMatrixWidth = aProcessor.GetColumnsCount();
 
-            // logging values from certain sclice
-            //Logger logger = new Logger("../../Log/log_fibroso_cavernous_139_slice52.txt");
-            //List<short> uniqueValues = new List<short>();
-            //for (int i = 0; i < imageMatrixHeight; i++)
-            //{
-            //    for (int j = 0; j < imageMatrixWidth; j++)
-            //    {
-            //        short currentValue = (short)dicomMatrices[52].GetValue(i, j);
-            //        if (!uniqueValues.Contains(currentValue))
-            //        {
-            //            logger.WriteLog(currentValue.ToString() + "\r\n");
-            //            uniqueValues.Add(currentValue);
-            //        }
-            //    }
-            //}
-
             // Creating default image from data
             int defaultIndex = 0;
             Bitmap DICOMImage = ImageProcessing.GetBitmapFrom16Matrix(dicomMatrices[defaultIndex], imageMatrixHeight, imageMatrixWidth,
@@ -199,6 +185,7 @@ namespace DICOMopener
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 pictureBox_DICOMImage.Image.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                toolStripStatusLabel.Text = string.Format("The image '{0}' has been saved", saveFileDialog.FileName);
             }
         }
 
@@ -236,6 +223,7 @@ namespace DICOMopener
                             eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
                         DICOMImage.Save(DICOMImageName, System.Drawing.Imaging.ImageFormat.Bmp);
                     }
+                    toolStripStatusLabel.Text = string.Format("{0} images have been saved", dicomMatrices.Length);
                 }
             }
         }
