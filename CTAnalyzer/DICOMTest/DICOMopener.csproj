@@ -50,6 +50,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CTImageSegmentation">
+      <HintPath>..\Release\CTImageSegmentation.dll</HintPath>
+    </Reference>
     <Reference Include="DICOMWorker, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\My projects\My own libs\DICOMWorker.dll</HintPath>
