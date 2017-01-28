@@ -53,11 +53,24 @@
             this.label_units = new System.Windows.Forms.Label();
             this.comboBox_EWindowType = new System.Windows.Forms.ComboBox();
             this.label_EWindowType = new System.Windows.Forms.Label();
+            this.pictureBox_segmentedImage = new System.Windows.Forms.PictureBox();
+            this.button_saveSegmentedImage = new System.Windows.Forms.Button();
+            this.button_saveAllSegmentedImages = new System.Windows.Forms.Button();
+            this.panel_segmentationParameters = new System.Windows.Forms.Panel();
+            this.label_segmentationFilterWidth = new System.Windows.Forms.Label();
+            this.label_segmentationIntencityThreshold = new System.Windows.Forms.Label();
+            this.numericUpDown_segmentationFilterWidth = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_segmentationIntencityThreshold = new System.Windows.Forms.NumericUpDown();
+            this.button_doSegmentation = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.panel_EWindowParameters.SuspendLayout();
             this.panel_CenterWidth.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).BeginInit();
+            this.panel_segmentationParameters.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationIntencityThreshold)).BeginInit();
             this.SuspendLayout();
             // 
             // button_open
@@ -74,10 +87,10 @@
             // 
             // pictureBox_DICOMImage
             // 
-            this.pictureBox_DICOMImage.Location = new System.Drawing.Point(714, 70);
+            this.pictureBox_DICOMImage.Location = new System.Drawing.Point(119, 357);
             this.pictureBox_DICOMImage.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox_DICOMImage.Name = "pictureBox_DICOMImage";
-            this.pictureBox_DICOMImage.Size = new System.Drawing.Size(587, 478);
+            this.pictureBox_DICOMImage.Size = new System.Drawing.Size(440, 440);
             this.pictureBox_DICOMImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_DICOMImage.TabIndex = 1;
             this.pictureBox_DICOMImage.TabStop = false;
@@ -91,7 +104,7 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 705);
+            this.statusStrip.Location = new System.Drawing.Point(0, 959);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
             this.statusStrip.Size = new System.Drawing.Size(1389, 25);
@@ -106,7 +119,7 @@
             // 
             // trackBar
             // 
-            this.trackBar.Location = new System.Drawing.Point(16, 604);
+            this.trackBar.Location = new System.Drawing.Point(16, 857);
             this.trackBar.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar.Maximum = 0;
             this.trackBar.Name = "trackBar";
@@ -119,7 +132,7 @@
             // 
             this.label_trackBarValue.AutoSize = true;
             this.label_trackBarValue.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_trackBarValue.Location = new System.Drawing.Point(691, 677);
+            this.label_trackBarValue.Location = new System.Drawing.Point(691, 930);
             this.label_trackBarValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_trackBarValue.Name = "label_trackBarValue";
             this.label_trackBarValue.Size = new System.Drawing.Size(13, 20);
@@ -129,7 +142,7 @@
             // button_saveImage
             // 
             this.button_saveImage.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_saveImage.Location = new System.Drawing.Point(1025, 556);
+            this.button_saveImage.Location = new System.Drawing.Point(119, 805);
             this.button_saveImage.Margin = new System.Windows.Forms.Padding(4);
             this.button_saveImage.Name = "button_saveImage";
             this.button_saveImage.Size = new System.Drawing.Size(144, 44);
@@ -141,7 +154,7 @@
             // button_saveAllImages
             // 
             this.button_saveAllImages.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_saveAllImages.Location = new System.Drawing.Point(1189, 556);
+            this.button_saveAllImages.Location = new System.Drawing.Point(271, 805);
             this.button_saveAllImages.Margin = new System.Windows.Forms.Padding(4);
             this.button_saveAllImages.Name = "button_saveAllImages";
             this.button_saveAllImages.Size = new System.Drawing.Size(184, 44);
@@ -159,9 +172,9 @@
             this.panel_EWindowParameters.Controls.Add(this.label_units);
             this.panel_EWindowParameters.Controls.Add(this.comboBox_EWindowType);
             this.panel_EWindowParameters.Controls.Add(this.label_EWindowType);
-            this.panel_EWindowParameters.Location = new System.Drawing.Point(117, 70);
+            this.panel_EWindowParameters.Location = new System.Drawing.Point(119, 61);
             this.panel_EWindowParameters.Name = "panel_EWindowParameters";
-            this.panel_EWindowParameters.Size = new System.Drawing.Size(587, 478);
+            this.panel_EWindowParameters.Size = new System.Drawing.Size(587, 289);
             this.panel_EWindowParameters.TabIndex = 7;
             // 
             // panel_CenterWidth
@@ -295,11 +308,111 @@
             this.label_EWindowType.TabIndex = 0;
             this.label_EWindowType.Text = "Electronic window type:";
             // 
+            // pictureBox_segmentedImage
+            // 
+            this.pictureBox_segmentedImage.Location = new System.Drawing.Point(852, 357);
+            this.pictureBox_segmentedImage.Name = "pictureBox_segmentedImage";
+            this.pictureBox_segmentedImage.Size = new System.Drawing.Size(440, 440);
+            this.pictureBox_segmentedImage.TabIndex = 8;
+            this.pictureBox_segmentedImage.TabStop = false;
+            // 
+            // button_saveSegmentedImage
+            // 
+            this.button_saveSegmentedImage.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_saveSegmentedImage.Location = new System.Drawing.Point(1148, 806);
+            this.button_saveSegmentedImage.Name = "button_saveSegmentedImage";
+            this.button_saveSegmentedImage.Size = new System.Drawing.Size(144, 44);
+            this.button_saveSegmentedImage.TabIndex = 9;
+            this.button_saveSegmentedImage.Text = "Save image";
+            this.button_saveSegmentedImage.UseVisualStyleBackColor = true;
+            // 
+            // button_saveAllSegmentedImages
+            // 
+            this.button_saveAllSegmentedImages.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_saveAllSegmentedImages.Location = new System.Drawing.Point(958, 807);
+            this.button_saveAllSegmentedImages.Name = "button_saveAllSegmentedImages";
+            this.button_saveAllSegmentedImages.Size = new System.Drawing.Size(184, 44);
+            this.button_saveAllSegmentedImages.TabIndex = 10;
+            this.button_saveAllSegmentedImages.Text = "Save all images";
+            this.button_saveAllSegmentedImages.UseVisualStyleBackColor = true;
+            // 
+            // panel_segmentationParameters
+            // 
+            this.panel_segmentationParameters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_segmentationParameters.Controls.Add(this.button_doSegmentation);
+            this.panel_segmentationParameters.Controls.Add(this.numericUpDown_segmentationIntencityThreshold);
+            this.panel_segmentationParameters.Controls.Add(this.numericUpDown_segmentationFilterWidth);
+            this.panel_segmentationParameters.Controls.Add(this.label_segmentationIntencityThreshold);
+            this.panel_segmentationParameters.Controls.Add(this.label_segmentationFilterWidth);
+            this.panel_segmentationParameters.Location = new System.Drawing.Point(580, 357);
+            this.panel_segmentationParameters.Name = "panel_segmentationParameters";
+            this.panel_segmentationParameters.Size = new System.Drawing.Size(252, 440);
+            this.panel_segmentationParameters.TabIndex = 11;
+            // 
+            // label_segmentationFilterWidth
+            // 
+            this.label_segmentationFilterWidth.AutoSize = true;
+            this.label_segmentationFilterWidth.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_segmentationFilterWidth.Location = new System.Drawing.Point(27, 106);
+            this.label_segmentationFilterWidth.Name = "label_segmentationFilterWidth";
+            this.label_segmentationFilterWidth.Size = new System.Drawing.Size(98, 20);
+            this.label_segmentationFilterWidth.TabIndex = 0;
+            this.label_segmentationFilterWidth.Text = "Filter width";
+            // 
+            // label_segmentationIntencityThreshold
+            // 
+            this.label_segmentationIntencityThreshold.AutoSize = true;
+            this.label_segmentationIntencityThreshold.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_segmentationIntencityThreshold.Location = new System.Drawing.Point(27, 187);
+            this.label_segmentationIntencityThreshold.Name = "label_segmentationIntencityThreshold";
+            this.label_segmentationIntencityThreshold.Size = new System.Drawing.Size(153, 20);
+            this.label_segmentationIntencityThreshold.TabIndex = 1;
+            this.label_segmentationIntencityThreshold.Text = "Intencity threshold";
+            // 
+            // numericUpDown_segmentationFilterWidth
+            // 
+            this.numericUpDown_segmentationFilterWidth.Location = new System.Drawing.Point(31, 139);
+            this.numericUpDown_segmentationFilterWidth.Name = "numericUpDown_segmentationFilterWidth";
+            this.numericUpDown_segmentationFilterWidth.Size = new System.Drawing.Size(183, 22);
+            this.numericUpDown_segmentationFilterWidth.TabIndex = 2;
+            this.numericUpDown_segmentationFilterWidth.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown_segmentationIntencityThreshold
+            // 
+            this.numericUpDown_segmentationIntencityThreshold.Location = new System.Drawing.Point(31, 219);
+            this.numericUpDown_segmentationIntencityThreshold.Name = "numericUpDown_segmentationIntencityThreshold";
+            this.numericUpDown_segmentationIntencityThreshold.Size = new System.Drawing.Size(183, 22);
+            this.numericUpDown_segmentationIntencityThreshold.TabIndex = 3;
+            this.numericUpDown_segmentationIntencityThreshold.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // button_doSegmentation
+            // 
+            this.button_doSegmentation.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_doSegmentation.Location = new System.Drawing.Point(31, 273);
+            this.button_doSegmentation.Name = "button_doSegmentation";
+            this.button_doSegmentation.Size = new System.Drawing.Size(183, 44);
+            this.button_doSegmentation.TabIndex = 4;
+            this.button_doSegmentation.Text = "Segmentation";
+            this.button_doSegmentation.UseVisualStyleBackColor = true;
+            this.button_doSegmentation.Click += new System.EventHandler(this.button_doSegmentation_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1389, 730);
+            this.ClientSize = new System.Drawing.Size(1389, 984);
+            this.Controls.Add(this.panel_segmentationParameters);
+            this.Controls.Add(this.button_saveAllSegmentedImages);
+            this.Controls.Add(this.button_saveSegmentedImage);
+            this.Controls.Add(this.pictureBox_segmentedImage);
             this.Controls.Add(this.panel_EWindowParameters);
             this.Controls.Add(this.button_saveAllImages);
             this.Controls.Add(this.button_saveImage);
@@ -310,6 +423,7 @@
             this.Controls.Add(this.button_open);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DICOMViewer";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).EndInit();
@@ -320,6 +434,11 @@
             this.panel_EWindowParameters.PerformLayout();
             this.panel_CenterWidth.ResumeLayout(false);
             this.panel_CenterWidth.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).EndInit();
+            this.panel_segmentationParameters.ResumeLayout(false);
+            this.panel_segmentationParameters.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationIntencityThreshold)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,6 +471,15 @@
         private System.Windows.Forms.Label label_recomendedEWindowCenter;
         private System.Windows.Forms.Label label_recomendedEWindowWidth;
         private System.Windows.Forms.Panel panel_CenterWidth;
+        private System.Windows.Forms.PictureBox pictureBox_segmentedImage;
+        private System.Windows.Forms.Button button_saveSegmentedImage;
+        private System.Windows.Forms.Button button_saveAllSegmentedImages;
+        private System.Windows.Forms.Panel panel_segmentationParameters;
+        private System.Windows.Forms.Label label_segmentationIntencityThreshold;
+        private System.Windows.Forms.Label label_segmentationFilterWidth;
+        private System.Windows.Forms.NumericUpDown numericUpDown_segmentationFilterWidth;
+        private System.Windows.Forms.NumericUpDown numericUpDown_segmentationIntencityThreshold;
+        private System.Windows.Forms.Button button_doSegmentation;
     }
 }
 

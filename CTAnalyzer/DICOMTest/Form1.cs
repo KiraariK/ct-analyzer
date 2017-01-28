@@ -12,6 +12,8 @@ namespace DICOMopener
 {
     public partial class MainForm : Form
     {
+        // TODO: create the new class in utils to work with CTImagesSegmentation dll to call the segmentation method
+
         private string[] filenames;
         private Array[] dicomMatrices;
         private int imageMatrixHeight;
@@ -337,6 +339,22 @@ namespace DICOMopener
                 trackBar.Value -= 1;
                 return;
             }
+        }
+
+        private void button_doSegmentation_Click(object sender, EventArgs e)
+        {
+            if (dicomMatrices == null) // DICOM files are not loaded
+                return;
+
+            pictureBox_segmentedImage.Image = null;
+
+            MessageBox.Show("Not realized yet");
+
+            // TODO: do image segmentation
+            // creae the byte intencity array of all ct images in current window
+            // call the unsafe segmentation function
+            // set the image in certain picture box, image index should be selected as the current slideBar value
+            // show the message of finishing the segmentation
         }
     }
 }
