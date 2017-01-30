@@ -57,11 +57,11 @@
             this.button_saveSegmentedImage = new System.Windows.Forms.Button();
             this.button_saveAllSegmentedImages = new System.Windows.Forms.Button();
             this.panel_segmentationParameters = new System.Windows.Forms.Panel();
-            this.label_segmentationFilterWidth = new System.Windows.Forms.Label();
-            this.label_segmentationIntencityThreshold = new System.Windows.Forms.Label();
-            this.numericUpDown_segmentationFilterWidth = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown_segmentationIntencityThreshold = new System.Windows.Forms.NumericUpDown();
             this.button_doSegmentation = new System.Windows.Forms.Button();
+            this.numericUpDown_segmentationIntencityThreshold = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_segmentationFilterWidth = new System.Windows.Forms.NumericUpDown();
+            this.label_segmentationIntencityThreshold = new System.Windows.Forms.Label();
+            this.label_segmentationFilterWidth = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -69,14 +69,14 @@
             this.panel_CenterWidth.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).BeginInit();
             this.panel_segmentationParameters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationIntencityThreshold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // button_open
             // 
             this.button_open.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_open.Location = new System.Drawing.Point(601, 12);
+            this.button_open.Location = new System.Drawing.Point(13, 11);
             this.button_open.Margin = new System.Windows.Forms.Padding(4);
             this.button_open.Name = "button_open";
             this.button_open.Size = new System.Drawing.Size(231, 43);
@@ -87,7 +87,7 @@
             // 
             // pictureBox_DICOMImage
             // 
-            this.pictureBox_DICOMImage.Location = new System.Drawing.Point(119, 357);
+            this.pictureBox_DICOMImage.Location = new System.Drawing.Point(419, 61);
             this.pictureBox_DICOMImage.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox_DICOMImage.Name = "pictureBox_DICOMImage";
             this.pictureBox_DICOMImage.Size = new System.Drawing.Size(440, 440);
@@ -104,10 +104,10 @@
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 959);
+            this.statusStrip.Location = new System.Drawing.Point(0, 657);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip.Size = new System.Drawing.Size(1389, 25);
+            this.statusStrip.Size = new System.Drawing.Size(1549, 25);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -119,11 +119,11 @@
             // 
             // trackBar
             // 
-            this.trackBar.Location = new System.Drawing.Point(16, 857);
+            this.trackBar.Location = new System.Drawing.Point(16, 559);
             this.trackBar.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar.Maximum = 0;
             this.trackBar.Name = "trackBar";
-            this.trackBar.Size = new System.Drawing.Size(1357, 56);
+            this.trackBar.Size = new System.Drawing.Size(1520, 56);
             this.trackBar.TabIndex = 3;
             this.trackBar.Scroll += new System.EventHandler(this.trackBar_Scroll);
             this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);
@@ -132,7 +132,7 @@
             // 
             this.label_trackBarValue.AutoSize = true;
             this.label_trackBarValue.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_trackBarValue.Location = new System.Drawing.Point(691, 930);
+            this.label_trackBarValue.Location = new System.Drawing.Point(774, 624);
             this.label_trackBarValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_trackBarValue.Name = "label_trackBarValue";
             this.label_trackBarValue.Size = new System.Drawing.Size(13, 20);
@@ -142,7 +142,7 @@
             // button_saveImage
             // 
             this.button_saveImage.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_saveImage.Location = new System.Drawing.Point(119, 805);
+            this.button_saveImage.Location = new System.Drawing.Point(419, 509);
             this.button_saveImage.Margin = new System.Windows.Forms.Padding(4);
             this.button_saveImage.Name = "button_saveImage";
             this.button_saveImage.Size = new System.Drawing.Size(144, 44);
@@ -154,7 +154,7 @@
             // button_saveAllImages
             // 
             this.button_saveAllImages.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_saveAllImages.Location = new System.Drawing.Point(271, 805);
+            this.button_saveAllImages.Location = new System.Drawing.Point(571, 509);
             this.button_saveAllImages.Margin = new System.Windows.Forms.Padding(4);
             this.button_saveAllImages.Name = "button_saveAllImages";
             this.button_saveAllImages.Size = new System.Drawing.Size(184, 44);
@@ -172,9 +172,9 @@
             this.panel_EWindowParameters.Controls.Add(this.label_units);
             this.panel_EWindowParameters.Controls.Add(this.comboBox_EWindowType);
             this.panel_EWindowParameters.Controls.Add(this.label_EWindowType);
-            this.panel_EWindowParameters.Location = new System.Drawing.Point(119, 61);
+            this.panel_EWindowParameters.Location = new System.Drawing.Point(12, 61);
             this.panel_EWindowParameters.Name = "panel_EWindowParameters";
-            this.panel_EWindowParameters.Size = new System.Drawing.Size(587, 289);
+            this.panel_EWindowParameters.Size = new System.Drawing.Size(400, 289);
             this.panel_EWindowParameters.TabIndex = 7;
             // 
             // panel_CenterWidth
@@ -189,7 +189,7 @@
             this.panel_CenterWidth.Controls.Add(this.label_EWindowWidth);
             this.panel_CenterWidth.Location = new System.Drawing.Point(10, 104);
             this.panel_CenterWidth.Name = "panel_CenterWidth";
-            this.panel_CenterWidth.Size = new System.Drawing.Size(564, 170);
+            this.panel_CenterWidth.Size = new System.Drawing.Size(378, 170);
             this.panel_CenterWidth.TabIndex = 8;
             // 
             // label_EWindowCenter
@@ -205,7 +205,7 @@
             // label_recomendedEWindowWidth
             // 
             this.label_recomendedEWindowWidth.AutoSize = true;
-            this.label_recomendedEWindowWidth.Location = new System.Drawing.Point(334, 70);
+            this.label_recomendedEWindowWidth.Location = new System.Drawing.Point(156, 90);
             this.label_recomendedEWindowWidth.Name = "label_recomendedEWindowWidth";
             this.label_recomendedEWindowWidth.Size = new System.Drawing.Size(216, 17);
             this.label_recomendedEWindowWidth.TabIndex = 11;
@@ -213,15 +213,15 @@
             // 
             // textBox_EWindowCenter
             // 
-            this.textBox_EWindowCenter.Location = new System.Drawing.Point(228, 11);
+            this.textBox_EWindowCenter.Location = new System.Drawing.Point(218, 11);
             this.textBox_EWindowCenter.Name = "textBox_EWindowCenter";
-            this.textBox_EWindowCenter.Size = new System.Drawing.Size(100, 22);
+            this.textBox_EWindowCenter.Size = new System.Drawing.Size(120, 22);
             this.textBox_EWindowCenter.TabIndex = 6;
             // 
             // label_recomendedEWindowCenter
             // 
             this.label_recomendedEWindowCenter.AutoSize = true;
-            this.label_recomendedEWindowCenter.Location = new System.Drawing.Point(334, 16);
+            this.label_recomendedEWindowCenter.Location = new System.Drawing.Point(156, 36);
             this.label_recomendedEWindowCenter.Name = "label_recomendedEWindowCenter";
             this.label_recomendedEWindowCenter.Size = new System.Drawing.Size(216, 17);
             this.label_recomendedEWindowCenter.TabIndex = 10;
@@ -229,9 +229,9 @@
             // 
             // textBox_EWindowWidth
             // 
-            this.textBox_EWindowWidth.Location = new System.Drawing.Point(228, 65);
+            this.textBox_EWindowWidth.Location = new System.Drawing.Point(218, 65);
             this.textBox_EWindowWidth.Name = "textBox_EWindowWidth";
-            this.textBox_EWindowWidth.Size = new System.Drawing.Size(100, 22);
+            this.textBox_EWindowWidth.Size = new System.Drawing.Size(120, 22);
             this.textBox_EWindowWidth.TabIndex = 7;
             // 
             // button_EWindowParametersApply
@@ -258,7 +258,7 @@
             // radioButton_Hounsfield
             // 
             this.radioButton_Hounsfield.AutoSize = true;
-            this.radioButton_Hounsfield.Location = new System.Drawing.Point(441, 67);
+            this.radioButton_Hounsfield.Location = new System.Drawing.Point(251, 56);
             this.radioButton_Hounsfield.Name = "radioButton_Hounsfield";
             this.radioButton_Hounsfield.Size = new System.Drawing.Size(130, 21);
             this.radioButton_Hounsfield.TabIndex = 4;
@@ -270,7 +270,7 @@
             // radioButton_DICOM
             // 
             this.radioButton_DICOM.AutoSize = true;
-            this.radioButton_DICOM.Location = new System.Drawing.Point(239, 65);
+            this.radioButton_DICOM.Location = new System.Drawing.Point(109, 56);
             this.radioButton_DICOM.Name = "radioButton_DICOM";
             this.radioButton_DICOM.Size = new System.Drawing.Size(107, 21);
             this.radioButton_DICOM.TabIndex = 3;
@@ -283,7 +283,7 @@
             // 
             this.label_units.AutoSize = true;
             this.label_units.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_units.Location = new System.Drawing.Point(13, 66);
+            this.label_units.Location = new System.Drawing.Point(13, 57);
             this.label_units.Name = "label_units";
             this.label_units.Size = new System.Drawing.Size(55, 20);
             this.label_units.TabIndex = 2;
@@ -292,9 +292,9 @@
             // comboBox_EWindowType
             // 
             this.comboBox_EWindowType.FormattingEnabled = true;
-            this.comboBox_EWindowType.Location = new System.Drawing.Point(239, 14);
+            this.comboBox_EWindowType.Location = new System.Drawing.Point(229, 14);
             this.comboBox_EWindowType.Name = "comboBox_EWindowType";
-            this.comboBox_EWindowType.Size = new System.Drawing.Size(332, 24);
+            this.comboBox_EWindowType.Size = new System.Drawing.Size(120, 24);
             this.comboBox_EWindowType.TabIndex = 1;
             this.comboBox_EWindowType.SelectedIndexChanged += new System.EventHandler(this.comboBox_EWindowType_SelectedIndexChanged);
             // 
@@ -310,7 +310,7 @@
             // 
             // pictureBox_segmentedImage
             // 
-            this.pictureBox_segmentedImage.Location = new System.Drawing.Point(852, 357);
+            this.pictureBox_segmentedImage.Location = new System.Drawing.Point(1079, 61);
             this.pictureBox_segmentedImage.Name = "pictureBox_segmentedImage";
             this.pictureBox_segmentedImage.Size = new System.Drawing.Size(440, 440);
             this.pictureBox_segmentedImage.TabIndex = 8;
@@ -319,7 +319,7 @@
             // button_saveSegmentedImage
             // 
             this.button_saveSegmentedImage.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_saveSegmentedImage.Location = new System.Drawing.Point(1148, 806);
+            this.button_saveSegmentedImage.Location = new System.Drawing.Point(1375, 507);
             this.button_saveSegmentedImage.Name = "button_saveSegmentedImage";
             this.button_saveSegmentedImage.Size = new System.Drawing.Size(144, 44);
             this.button_saveSegmentedImage.TabIndex = 9;
@@ -329,7 +329,7 @@
             // button_saveAllSegmentedImages
             // 
             this.button_saveAllSegmentedImages.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_saveAllSegmentedImages.Location = new System.Drawing.Point(958, 807);
+            this.button_saveAllSegmentedImages.Location = new System.Drawing.Point(1185, 507);
             this.button_saveAllSegmentedImages.Name = "button_saveAllSegmentedImages";
             this.button_saveAllSegmentedImages.Size = new System.Drawing.Size(184, 44);
             this.button_saveAllSegmentedImages.TabIndex = 10;
@@ -344,46 +344,25 @@
             this.panel_segmentationParameters.Controls.Add(this.numericUpDown_segmentationFilterWidth);
             this.panel_segmentationParameters.Controls.Add(this.label_segmentationIntencityThreshold);
             this.panel_segmentationParameters.Controls.Add(this.label_segmentationFilterWidth);
-            this.panel_segmentationParameters.Location = new System.Drawing.Point(580, 357);
+            this.panel_segmentationParameters.Location = new System.Drawing.Point(865, 61);
             this.panel_segmentationParameters.Name = "panel_segmentationParameters";
-            this.panel_segmentationParameters.Size = new System.Drawing.Size(252, 440);
+            this.panel_segmentationParameters.Size = new System.Drawing.Size(208, 440);
             this.panel_segmentationParameters.TabIndex = 11;
             // 
-            // label_segmentationFilterWidth
+            // button_doSegmentation
             // 
-            this.label_segmentationFilterWidth.AutoSize = true;
-            this.label_segmentationFilterWidth.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_segmentationFilterWidth.Location = new System.Drawing.Point(27, 106);
-            this.label_segmentationFilterWidth.Name = "label_segmentationFilterWidth";
-            this.label_segmentationFilterWidth.Size = new System.Drawing.Size(98, 20);
-            this.label_segmentationFilterWidth.TabIndex = 0;
-            this.label_segmentationFilterWidth.Text = "Filter width";
-            // 
-            // label_segmentationIntencityThreshold
-            // 
-            this.label_segmentationIntencityThreshold.AutoSize = true;
-            this.label_segmentationIntencityThreshold.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_segmentationIntencityThreshold.Location = new System.Drawing.Point(27, 187);
-            this.label_segmentationIntencityThreshold.Name = "label_segmentationIntencityThreshold";
-            this.label_segmentationIntencityThreshold.Size = new System.Drawing.Size(153, 20);
-            this.label_segmentationIntencityThreshold.TabIndex = 1;
-            this.label_segmentationIntencityThreshold.Text = "Intencity threshold";
-            // 
-            // numericUpDown_segmentationFilterWidth
-            // 
-            this.numericUpDown_segmentationFilterWidth.Location = new System.Drawing.Point(31, 139);
-            this.numericUpDown_segmentationFilterWidth.Name = "numericUpDown_segmentationFilterWidth";
-            this.numericUpDown_segmentationFilterWidth.Size = new System.Drawing.Size(183, 22);
-            this.numericUpDown_segmentationFilterWidth.TabIndex = 2;
-            this.numericUpDown_segmentationFilterWidth.Value = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
+            this.button_doSegmentation.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_doSegmentation.Location = new System.Drawing.Point(11, 273);
+            this.button_doSegmentation.Name = "button_doSegmentation";
+            this.button_doSegmentation.Size = new System.Drawing.Size(183, 44);
+            this.button_doSegmentation.TabIndex = 4;
+            this.button_doSegmentation.Text = "Segmentation";
+            this.button_doSegmentation.UseVisualStyleBackColor = true;
+            this.button_doSegmentation.Click += new System.EventHandler(this.button_doSegmentation_Click);
             // 
             // numericUpDown_segmentationIntencityThreshold
             // 
-            this.numericUpDown_segmentationIntencityThreshold.Location = new System.Drawing.Point(31, 219);
+            this.numericUpDown_segmentationIntencityThreshold.Location = new System.Drawing.Point(11, 219);
             this.numericUpDown_segmentationIntencityThreshold.Name = "numericUpDown_segmentationIntencityThreshold";
             this.numericUpDown_segmentationIntencityThreshold.Size = new System.Drawing.Size(183, 22);
             this.numericUpDown_segmentationIntencityThreshold.TabIndex = 3;
@@ -393,22 +372,43 @@
             0,
             0});
             // 
-            // button_doSegmentation
+            // numericUpDown_segmentationFilterWidth
             // 
-            this.button_doSegmentation.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_doSegmentation.Location = new System.Drawing.Point(31, 273);
-            this.button_doSegmentation.Name = "button_doSegmentation";
-            this.button_doSegmentation.Size = new System.Drawing.Size(183, 44);
-            this.button_doSegmentation.TabIndex = 4;
-            this.button_doSegmentation.Text = "Segmentation";
-            this.button_doSegmentation.UseVisualStyleBackColor = true;
-            this.button_doSegmentation.Click += new System.EventHandler(this.button_doSegmentation_Click);
+            this.numericUpDown_segmentationFilterWidth.Location = new System.Drawing.Point(11, 139);
+            this.numericUpDown_segmentationFilterWidth.Name = "numericUpDown_segmentationFilterWidth";
+            this.numericUpDown_segmentationFilterWidth.Size = new System.Drawing.Size(183, 22);
+            this.numericUpDown_segmentationFilterWidth.TabIndex = 2;
+            this.numericUpDown_segmentationFilterWidth.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
+            // label_segmentationIntencityThreshold
+            // 
+            this.label_segmentationIntencityThreshold.AutoSize = true;
+            this.label_segmentationIntencityThreshold.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_segmentationIntencityThreshold.Location = new System.Drawing.Point(7, 187);
+            this.label_segmentationIntencityThreshold.Name = "label_segmentationIntencityThreshold";
+            this.label_segmentationIntencityThreshold.Size = new System.Drawing.Size(153, 20);
+            this.label_segmentationIntencityThreshold.TabIndex = 1;
+            this.label_segmentationIntencityThreshold.Text = "Intencity threshold";
+            // 
+            // label_segmentationFilterWidth
+            // 
+            this.label_segmentationFilterWidth.AutoSize = true;
+            this.label_segmentationFilterWidth.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_segmentationFilterWidth.Location = new System.Drawing.Point(7, 106);
+            this.label_segmentationFilterWidth.Name = "label_segmentationFilterWidth";
+            this.label_segmentationFilterWidth.Size = new System.Drawing.Size(98, 20);
+            this.label_segmentationFilterWidth.TabIndex = 0;
+            this.label_segmentationFilterWidth.Text = "Filter width";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1389, 984);
+            this.ClientSize = new System.Drawing.Size(1549, 682);
             this.Controls.Add(this.panel_segmentationParameters);
             this.Controls.Add(this.button_saveAllSegmentedImages);
             this.Controls.Add(this.button_saveSegmentedImage);
@@ -437,8 +437,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).EndInit();
             this.panel_segmentationParameters.ResumeLayout(false);
             this.panel_segmentationParameters.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationIntencityThreshold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
