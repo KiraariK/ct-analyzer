@@ -477,7 +477,7 @@ namespace DICOMopener
             {
                 SEHException seh_ex = (SEHException)ex;
                 if (seh_ex != null)
-                    MessageBox.Show("Probably, the Out of Memory Exception was occured in external component\nTry to use less slices",
+                    MessageBox.Show("Probably, the Out of Memory Exception was occured in an external component\nTry to use less slices",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
