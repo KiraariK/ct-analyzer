@@ -313,6 +313,7 @@
             this.pictureBox_segmentedImage.Location = new System.Drawing.Point(1079, 61);
             this.pictureBox_segmentedImage.Name = "pictureBox_segmentedImage";
             this.pictureBox_segmentedImage.Size = new System.Drawing.Size(440, 440);
+            this.pictureBox_segmentedImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_segmentedImage.TabIndex = 8;
             this.pictureBox_segmentedImage.TabStop = false;
             // 
@@ -325,6 +326,7 @@
             this.button_saveSegmentedImage.TabIndex = 9;
             this.button_saveSegmentedImage.Text = "Save image";
             this.button_saveSegmentedImage.UseVisualStyleBackColor = true;
+            this.button_saveSegmentedImage.Click += new System.EventHandler(this.button_saveSegmentedImage_Click);
             // 
             // button_saveAllSegmentedImages
             // 
@@ -335,6 +337,7 @@
             this.button_saveAllSegmentedImages.TabIndex = 10;
             this.button_saveAllSegmentedImages.Text = "Save all images";
             this.button_saveAllSegmentedImages.UseVisualStyleBackColor = true;
+            this.button_saveAllSegmentedImages.Click += new System.EventHandler(this.button_saveAllSegmentedImages_Click);
             // 
             // panel_segmentationParameters
             // 

@@ -70,7 +70,5 @@ namespace DICOMopener
 
             return result;
         }
-
-        // TODO: create the method to create the byte array of all images in certain electronic window
     }
 }

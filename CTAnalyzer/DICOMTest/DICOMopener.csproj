@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Imaging\ColorFactory.cs" />
     <Compile Include="Utils\ArrayProcessor.cs" />
     <Compile Include="CTwindows\EWindow.cs" />
     <Compile Include="CTwindows\EWindowType.cs" />

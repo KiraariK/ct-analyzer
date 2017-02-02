@@ -7,20 +7,30 @@ using MathWorks.MATLAB.NET.Utility;
 
 using DICOMWorker;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace DICOMopener
 {
     public partial class MainForm : Form
     {
-        // TODO: create the new class in utils to work with CTImagesSegmentation dll to call the segmentation method
+        [DllImport("CTImageSegmentation.dll", CallingConvention = CallingConvention.Cdecl)]
+        unsafe public extern static int CtSegmentation(byte* intencity_input, int* regions_output,
+            int images_number, int image_height, int image_width, int filter_width = 9, int intencity_threshold = 60);
 
-        private string[] filenames;
-        private Array[] dicomMatrices;
-        private int imageMatrixHeight;
-        private int imageMatrixWidth;
+        private static string[] filenames = null;
+        private static Array[] dicomMatrices = null; // contains a ct slice per element
+        private static int imageMatrixHeight = 0;
+        private static int imageMatrixWidth = 0;
+
+        private static int[][][] ctRegions = null; // contains the number of regions in ct volume after the segmentation
+        private static int filterWidth = 0; // filter width for ct image segmentation
+        private static int intencityThreshold = 0; // intencity threshold for ct image segmentation
+        private static int segmentsNumber = 0;
+        private Imaging.ColorFactory colorFactory = null; // set of colors for segmented image visualization
+
         private DICOMReader reader; // defining the MATLAB DICOMReader Class
 
-        private EWindow eWindow; // defining EWindow parameters
+        private static EWindow eWindow; // defining EWindow parameters
 
         public MainForm()
         {
@@ -30,9 +40,6 @@ namespace DICOMopener
             trackBar.Value = 0;
             toolStripStatusLabel.Text = " ";
             label_trackBarValue.Text = " ";
-
-            filenames = null;
-            dicomMatrices = null;
 
             reader = new DICOMReader(); // creating the instance of MATLAB DICOMReader Class. It is important to create instance here for 32 bit.
 
@@ -91,6 +98,72 @@ namespace DICOMopener
             pictureBox_DICOMImage.Image = DICOMImage;
         }
 
+        unsafe private static void SegmentLungs(int filterWidth, int intencityThreshold,
+            short minBorder, short maxBorder, short minIntencity, short maxIntencity)
+        {
+            // prepare data for using in C function
+            int imagesNumber = dicomMatrices.Length;
+            int imageSize = imageMatrixHeight * imageMatrixWidth;
+            byte[] intencityInput = new byte[imagesNumber * imageSize];
+            int[] regionsOutput = new int[imagesNumber * imageSize];
+
+            // set input parameters as image intencity of current electronic window
+            if (minIntencity < minBorder)
+                minIntencity = minBorder;
+            if (maxIntencity > maxBorder)
+                maxIntencity = maxBorder;
+
+            for (int k = 0; k < imagesNumber; k++)
+            {
+                for (int i = 0; i < imageMatrixHeight; i++)
+                {
+                    for (int j = 0; j < imageMatrixWidth; j++)
+                    {
+                        short valueFromArray = (short)dicomMatrices[k].GetValue(i, j);
+
+                        byte valueForImage = 0;
+                        if (valueFromArray >= minBorder && valueFromArray <= maxBorder)
+                        {
+                            // if value is outside of the electronic window
+                            if (valueFromArray < minIntencity)
+                                valueFromArray = minIntencity;
+                            if (valueFromArray > maxIntencity)
+                                valueFromArray = maxIntencity;
+
+                            valueForImage = (byte)(((valueFromArray - minIntencity) / (float)(maxIntencity - minIntencity)) * 255);
+                        }
+
+                        intencityInput[(k * imageSize) + (i * imageMatrixHeight) + j] = valueForImage;
+                    }
+                }
+            }
+
+            // allocate memory for global regions array
+            ctRegions = new int[imagesNumber][][];
+            for (int i = 0; i < imagesNumber; i++)
+            {
+                ctRegions[i] = new int[imageMatrixHeight][];
+                for (int j = 0; j < imageMatrixHeight; j++)
+                    ctRegions[i][j] = new int[imageMatrixWidth];
+            }
+
+            // using C function
+            fixed (byte* intencityInput_ptr = intencityInput)
+            {
+                fixed (int* regionsOutput_ptr = regionsOutput)
+                {
+                    segmentsNumber = CtSegmentation(intencityInput_ptr, regionsOutput_ptr, imagesNumber,
+                        imageMatrixHeight, imageMatrixWidth, filterWidth, intencityThreshold);
+
+                    // write result data to C# variables
+                    for (int k = 0; k < imagesNumber; k++)
+                        for (int i = 0; i < imageMatrixHeight; i++)
+                            for (int j = 0; j < imageMatrixWidth; j++)
+                                ctRegions[k][i][j] = regionsOutput_ptr[(k * imageSize) + (i * imageMatrixHeight) + j];
+                }
+            }
+        }
+
         private void button_open_Click(object sender, EventArgs e)
         {
             pictureBox_DICOMImage.Image = null;
@@ -101,6 +174,14 @@ namespace DICOMopener
 
             filenames = null;
             dicomMatrices = null;
+            imageMatrixHeight = 0;
+            imageMatrixWidth = 0;
+
+            ctRegions = null;
+            filterWidth = 0;
+            intencityThreshold = 0;
+            segmentsNumber = 0;
+            colorFactory = null;
 
             openFileDialog.Multiselect = true;
             openFileDialog.RestoreDirectory = true;
@@ -167,9 +248,20 @@ namespace DICOMopener
                 return;
 
             int currentIndex = bar.Value;
-            Bitmap DICOMImage = ImageProcessing.GetBitmapFrom16Matrix(dicomMatrices[currentIndex], imageMatrixHeight, imageMatrixWidth,
-                eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
-            pictureBox_DICOMImage.Image = DICOMImage;
+
+            if (dicomMatrices != null)
+            {
+                Bitmap DICOMImage = ImageProcessing.GetBitmapFrom16Matrix(dicomMatrices[currentIndex], imageMatrixHeight, imageMatrixWidth,
+                    eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
+                pictureBox_DICOMImage.Image = DICOMImage;
+            }
+
+            if (ctRegions != null)
+            {
+                Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(ctRegions[currentIndex],
+                    imageMatrixHeight, imageMatrixWidth, colorFactory);
+                pictureBox_segmentedImage.Image = segmentedImage;
+            }
 
             label_trackBarValue.Text = currentIndex.ToString();
         }
@@ -178,7 +270,7 @@ namespace DICOMopener
         {
             if (pictureBox_DICOMImage.Image == null)
             {
-                MessageBox.Show("Нечего сохранять", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -187,15 +279,15 @@ namespace DICOMopener
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 pictureBox_DICOMImage.Image.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                toolStripStatusLabel.Text = string.Format("The image '{0}' has been saved", saveFileDialog.FileName);
+                toolStripStatusLabel.Text = string.Format("Original image '{0}' has been saved", saveFileDialog.FileName);
             }
         }
 
         private void button_saveAllImages_Click(object sender, EventArgs e)
         {
-            if (pictureBox_DICOMImage.Image == null)
+            if (dicomMatrices == null)
             {
-                MessageBox.Show("Нечего сохранять", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -207,7 +299,7 @@ namespace DICOMopener
                     {
                         string DICOMImageName = folderBrowserDialog.SelectedPath + "\\";
                         string strIndex = i.ToString();
-                        switch(strIndex.Length)
+                        switch (strIndex.Length)
                         {
                             case 1:
                                 DICOMImageName += "00" + strIndex;
@@ -225,7 +317,7 @@ namespace DICOMopener
                             eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
                         DICOMImage.Save(DICOMImageName, System.Drawing.Imaging.ImageFormat.Bmp);
                     }
-                    toolStripStatusLabel.Text = string.Format("{0} images have been saved", dicomMatrices.Length);
+                    toolStripStatusLabel.Text = string.Format("{0} orignial images have been saved", dicomMatrices.Length);
                 }
             }
         }
@@ -346,15 +438,118 @@ namespace DICOMopener
             if (dicomMatrices == null) // DICOM files are not loaded
                 return;
 
+            if (numericUpDown_segmentationFilterWidth.Value < 1 && numericUpDown_segmentationFilterWidth.Value > 11)
+            {
+                MessageBox.Show("Filter width should be set between 1 and 11", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericUpDown_segmentationIntencityThreshold.Value < 0 && numericUpDown_segmentationIntencityThreshold.Value > 255)
+            {
+                MessageBox.Show("Intencity threshold should be set between 0 and 255", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (ctRegions != null && 
+                filterWidth == (int)numericUpDown_segmentationFilterWidth.Value && 
+                intencityThreshold == (int)numericUpDown_segmentationIntencityThreshold.Value)
+            {
+                DialogResult doSegmentationAgainResult =
+                    MessageBox.Show("You have actual results of segmentation\nDo you want to do it again?",
+                    "Warning", MessageBoxButtons.YesNo);
+                if (doSegmentationAgainResult == DialogResult.No)
+                    return;
+            }
+
+            filterWidth = (int)numericUpDown_segmentationFilterWidth.Value;
+            intencityThreshold = (int)numericUpDown_segmentationIntencityThreshold.Value;
+
             pictureBox_segmentedImage.Image = null;
 
-            MessageBox.Show("Not realized yet");
+            // segmentation
+            DateTime startSegmentationTime = DateTime.Now;
+            try
+            {
+                SegmentLungs(filterWidth, intencityThreshold, eWindow.MinBorder.DICOMUnit,
+                    eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
+            }
+            catch (Exception ex)
+            {
+                SEHException seh_ex = (SEHException)ex;
+                if (seh_ex != null)
+                    MessageBox.Show("Probably, the Out of Memory Exception was occured in external component\nTry to use less slices",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            // TODO: do image segmentation
-            // creae the byte intencity array of all ct images in current window
-            // call the unsafe segmentation function
-            // set the image in certain picture box, image index should be selected as the current slideBar value
-            // show the message of finishing the segmentation
+                return;
+            }
+            TimeSpan segmentationTime = DateTime.Now - startSegmentationTime;           
+
+            // creating colors for segmented image visualization
+            colorFactory = new Imaging.ColorFactory(segmentsNumber);
+
+            Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(ctRegions[trackBar.Value],
+                imageMatrixHeight, imageMatrixWidth, colorFactory);
+            pictureBox_segmentedImage.Image = segmentedImage;
+
+            toolStripStatusLabel.Text = string.Format("Segmentation is finished in {0}", segmentationTime);
+        }
+
+        private void button_saveSegmentedImage_Click(object sender, EventArgs e)
+        {
+            if (pictureBox_segmentedImage.Image == null)
+            {
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            saveFileDialog.Filter = "Bitmap files (*.bmp)|*.bmp";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox_segmentedImage.Image.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                toolStripStatusLabel.Text = string.Format("Segmented image '{0}' has been saved", saveFileDialog.FileName);
+            }
+        }
+
+        private void button_saveAllSegmentedImages_Click(object sender, EventArgs e)
+        {
+            if (ctRegions == null)
+            {
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (folderBrowserDialog.SelectedPath != null)
+                {
+                    for (int i = 0; i < dicomMatrices.Length; i++)
+                    {
+                        string segmentedImageName = folderBrowserDialog.SelectedPath + "\\";
+                        string strIndex = i.ToString();
+                        switch (strIndex.Length)
+                        {
+                            case 1:
+                                segmentedImageName += "00" + strIndex;
+                                break;
+                            case 2:
+                                segmentedImageName += "0" + strIndex;
+                                break;
+                            default:
+                                segmentedImageName += strIndex;
+                                break;
+                        }
+
+                        segmentedImageName += ".bmp";
+                        Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(ctRegions[i],
+                            imageMatrixHeight, imageMatrixWidth, colorFactory);
+                        segmentedImage.Save(segmentedImageName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    }
+                    toolStripStatusLabel.Text = string.Format("{0} segmented images have been saved", dicomMatrices.Length);
+                }
+            }
         }
     }
 }
