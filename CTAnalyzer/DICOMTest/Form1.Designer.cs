@@ -62,6 +62,7 @@
             this.numericUpDown_segmentationFilterWidth = new System.Windows.Forms.NumericUpDown();
             this.label_segmentationIntencityThreshold = new System.Windows.Forms.Label();
             this.label_segmentationFilterWidth = new System.Windows.Forms.Label();
+            this.button_close = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -407,11 +408,23 @@
             this.label_segmentationFilterWidth.TabIndex = 0;
             this.label_segmentationFilterWidth.Text = "Filter width";
             // 
+            // button_close
+            // 
+            this.button_close.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_close.Location = new System.Drawing.Point(1444, 12);
+            this.button_close.Name = "button_close";
+            this.button_close.Size = new System.Drawing.Size(75, 43);
+            this.button_close.TabIndex = 12;
+            this.button_close.Text = "Close";
+            this.button_close.UseVisualStyleBackColor = true;
+            this.button_close.Click += new System.EventHandler(this.button_close_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1549, 682);
+            this.Controls.Add(this.button_close);
             this.Controls.Add(this.panel_segmentationParameters);
             this.Controls.Add(this.button_saveAllSegmentedImages);
             this.Controls.Add(this.button_saveSegmentedImage);
@@ -483,6 +496,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_segmentationFilterWidth;
         private System.Windows.Forms.NumericUpDown numericUpDown_segmentationIntencityThreshold;
         private System.Windows.Forms.Button button_doSegmentation;
+        private System.Windows.Forms.Button button_close;
     }
 }
 

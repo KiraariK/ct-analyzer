@@ -198,6 +198,10 @@ namespace DICOMopener
             segmentsNumber = 0;
             colorFactory = null;
 
+            // Garbage Collector force call
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             openFileDialog.Multiselect = true;
             openFileDialog.RestoreDirectory = true;
             openFileDialog.Filter = "dicom files (*.dcm)|*.dcm|(*.dicom)|*.dicom|(*.DCM)|*.DCM|(*.DICOM)|*.DICOM";
@@ -572,6 +576,34 @@ namespace DICOMopener
                     toolStripStatusLabel.Text = string.Format("{0} segmented images have been saved", dicomMatrices.Length);
                 }
             }
+        }
+
+        private void button_close_Click(object sender, EventArgs e)
+        {
+            // clear interface information
+            pictureBox_DICOMImage.Image = null;
+            pictureBox_segmentedImage.Image = null;
+            trackBar.Maximum = 0;
+            trackBar.Value = 0;
+            toolStripStatusLabel.Text = " ";
+            label_trackBarValue.Text = " ";
+
+            // clear DICOM data
+            filenames = null;
+            dicomMatrices = null;
+            imageMatrixHeight = 0;
+            imageMatrixWidth = 0;
+
+            // clear data for segmentation
+            ctRegions = null;
+            filterWidth = 0;
+            intencityThreshold = 0;
+            segmentsNumber = 0;
+            colorFactory = null;
+
+            // Garbage Collector force call
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }
