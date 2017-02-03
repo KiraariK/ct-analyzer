@@ -22,7 +22,7 @@ namespace DICOMopener
         private static int imageMatrixHeight = 0;
         private static int imageMatrixWidth = 0;
 
-        private static int[][][] ctRegions = null; // contains the number of regions in ct volume after the segmentation
+        private static int[][,] ctRegions = null; // contains region indexes as 2D array in an array of all slices
         private static int filterWidth = 0; // filter width for ct image segmentation
         private static int intencityThreshold = 0; // intencity threshold for ct image segmentation
         private static int segmentsNumber = 0;
@@ -119,8 +119,6 @@ namespace DICOMopener
         unsafe private static void SegmentLungs(int filterWidth, int intencityThreshold,
             short minBorder, short maxBorder, short minIntencity, short maxIntencity)
         {
-            ctRegions = null;
-
             // prepare data for using in C function
             int imagesNumber = dicomMatrices.Length;
             int imageSize = imageMatrixHeight * imageMatrixWidth;
@@ -159,13 +157,9 @@ namespace DICOMopener
             }
 
             // allocate memory for global regions array
-            ctRegions = new int[imagesNumber][][];
+            ctRegions = new int[imagesNumber][,];
             for (int i = 0; i < imagesNumber; i++)
-            {
-                ctRegions[i] = new int[imageMatrixHeight][];
-                for (int j = 0; j < imageMatrixHeight; j++)
-                    ctRegions[i][j] = new int[imageMatrixWidth];
-            }
+                ctRegions[i] = new int[imageMatrixHeight, imageMatrixWidth];
 
             // using C function
             fixed (byte* intencityInput_ptr = intencityInput)
@@ -179,7 +173,7 @@ namespace DICOMopener
                     for (int k = 0; k < imagesNumber; k++)
                         for (int i = 0; i < imageMatrixHeight; i++)
                             for (int j = 0; j < imageMatrixWidth; j++)
-                                ctRegions[k][i][j] = regionsOutput_ptr[(k * imageSize) + (i * imageMatrixHeight) + j];
+                                ctRegions[k][i, j] = regionsOutput_ptr[(k * imageSize) + (i * imageMatrixHeight) + j];
                 }
             }
         }
@@ -482,10 +476,17 @@ namespace DICOMopener
                     return;
             }
 
+            // prepare for a new segmentation
+            ctRegions = null;
+            filterWidth = 0;
+            intencityThreshold = 0;
+            segmentsNumber = 0;
+            colorFactory = null;
+            pictureBox_segmentedImage.Image = null;
+
+            // start new segmentation
             filterWidth = (int)numericUpDown_segmentationFilterWidth.Value;
             intencityThreshold = (int)numericUpDown_segmentationIntencityThreshold.Value;
-
-            pictureBox_segmentedImage.Image = null;
 
             // segmentation
             DateTime startSegmentationTime = DateTime.Now;

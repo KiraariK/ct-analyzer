@@ -53,7 +53,7 @@ namespace DICOMopener
         /// <param name="imageWidth">Width of ct image slice</param>
         /// <param name="cFactory">Object containing generated colors for segments</param>
         /// <returns></returns>
-        public static Bitmap GetColoredSegmentedImage(int[][] segmentsMatrix, int imageHeight, int imageWidth, Imaging.ColorFactory cFactory)
+        public static Bitmap GetColoredSegmentedImage(int[,] segmentsMatrix, int imageHeight, int imageWidth, Imaging.ColorFactory cFactory)
         {
             Bitmap resultBitmap = new Bitmap(imageWidth, imageHeight, PixelFormat.Format24bppRgb);
 
@@ -70,7 +70,7 @@ namespace DICOMopener
                     {
                         int ColorPosition = j * BytesCount;
 
-                        int valueFromSegmentsMatrix = segmentsMatrix[i][j];
+                        int valueFromSegmentsMatrix = segmentsMatrix[i, j];
                         Imaging.ColorFactory.MyColors currentColor;
                         if (valueFromSegmentsMatrix == -1)
                         {
