@@ -123,7 +123,7 @@
             this.trackBar.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar.Maximum = 0;
             this.trackBar.Name = "trackBar";
-            this.trackBar.Size = new System.Drawing.Size(1520, 56);
+            this.trackBar.Size = new System.Drawing.Size(1503, 56);
             this.trackBar.TabIndex = 3;
             this.trackBar.Scroll += new System.EventHandler(this.trackBar_Scroll);
             this.trackBar.ValueChanged += new System.EventHandler(this.trackBar_ValueChanged);

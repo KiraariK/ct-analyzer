@@ -405,8 +405,9 @@ int merge_regions(unsigned char* input, int* region_numbers_array, int images_nu
 		}
 	}
 
-	// write new region indexes to the segment_slices array and count the number of regions
+	// write globaly normalized region indexes to the segment_slices array and count the number of regions
 	std::map<unsigned int, int> ids_map;
+	unsigned int index_counter = 0;
 	for (int k = 0; k < images_number; k++)
 	{
 		for (int i = 0; i < image_height; i++)
@@ -414,8 +415,15 @@ int merge_regions(unsigned char* input, int* region_numbers_array, int images_nu
 			for (int j = 0; j < image_width; j++)
 			{
 				unsigned int current_id = global_regions_map[region_numbers_array[(image_size * k) + (image_width * i) + j]]->main_root->ID;
-				ids_map[current_id] = 1;
-				region_numbers_array[(image_size * k) + (image_width * i) + j] = current_id;
+
+				if (ids_map.count(current_id) > 0) // index is already exist
+					region_numbers_array[(image_size * k) + (image_width * i) + j] = ids_map[current_id];
+				else
+				{
+					ids_map[current_id] = index_counter;
+					index_counter++;
+					region_numbers_array[(image_size * k) + (image_width * i) + j] = ids_map[current_id];
+				}
 			}
 		}
 	}
