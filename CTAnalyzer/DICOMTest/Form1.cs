@@ -87,7 +87,7 @@ namespace DICOMopener
         /// <summary>
         /// Reloads a seleted image
         /// </summary>
-        private void CurrentImageReloading()
+        private void CurrentDICOMImageReloading()
         {
             if (dicomMatrices == null) // DICOM files are not loaded
                 return;
@@ -96,11 +96,31 @@ namespace DICOMopener
             Bitmap DICOMImage = ImageProcessing.GetBitmapFrom16Matrix(dicomMatrices[currentIndex], imageMatrixHeight, imageMatrixWidth,
                 eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
             pictureBox_DICOMImage.Image = DICOMImage;
+
+            // remove all information about segmented images
+            ctRegions = null;
+            filterWidth = 0;
+            intencityThreshold = 0;
+            segmentsNumber = 0;
+            colorFactory = null;
+            pictureBox_segmentedImage.Image = null;
         }
 
+        /// <summary>
+        /// Do segmentation of all ct slices in 3D. Includes creation of intencity image of a current eWindow.
+        /// Function location is for reduce cost of memory using global variables.
+        /// </summary>
+        /// <param name="filterWidth">Width of filter kernel for median filtering during the segmentation</param>
+        /// <param name="intencityThreshold">Threshold for thresholding filtration after median filtering</param>
+        /// <param name="minBorder">The bottom level of DICOM velues range</param>
+        /// <param name="maxBorder">The top level of DICOM values range</param>
+        /// <param name="minIntencity">The bottom level of electronic window</param>
+        /// <param name="maxIntencity">The top level of electronic window</param>
         unsafe private static void SegmentLungs(int filterWidth, int intencityThreshold,
             short minBorder, short maxBorder, short minIntencity, short maxIntencity)
         {
+            ctRegions = null;
+
             // prepare data for using in C function
             int imagesNumber = dicomMatrices.Length;
             int imageSize = imageMatrixHeight * imageMatrixWidth;
@@ -167,6 +187,7 @@ namespace DICOMopener
         private void button_open_Click(object sender, EventArgs e)
         {
             pictureBox_DICOMImage.Image = null;
+            pictureBox_segmentedImage.Image = null;
             trackBar.Maximum = 0;
             trackBar.Value = 0;
             toolStripStatusLabel.Text = " ";
@@ -346,7 +367,7 @@ namespace DICOMopener
                 eWindow = new EWindow(newType, false);
 
             FillEWindowParametersView();
-            CurrentImageReloading();
+            CurrentDICOMImageReloading();
         }
 
         private void radioButton_DICOM_CheckedChanged(object sender, EventArgs e)
@@ -406,7 +427,7 @@ namespace DICOMopener
             eWindow = new EWindow(newType, (short)centerValue, (short)widthValue, isDICOMunits);
 
             FillEWindowParametersView();
-            CurrentImageReloading();
+            CurrentDICOMImageReloading();
         }
 
         private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
