@@ -126,6 +126,15 @@ namespace DICOMopener
         }
 
         /// <summary>
+        /// Forced Garbale Collector call
+        /// </summary>
+        private void ClearGarbage()
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        /// <summary>
         /// Do segmentation of all ct slices in 3D. Includes creation of intencity image of a current eWindow.
         /// Function location is for reduce cost of memory using global variables.
         /// </summary>
@@ -210,8 +219,7 @@ namespace DICOMopener
             ClearSegmentationData();
 
             // Garbage Collector force call
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            ClearGarbage();
 
             openFileDialog.Multiselect = true;
             openFileDialog.RestoreDirectory = true;
@@ -495,6 +503,9 @@ namespace DICOMopener
             ClearSegmentationData();
             pictureBox_segmentedImage.Image = null;
 
+            // Garbage Collector force call
+            ClearGarbage();
+
             // start new segmentation
             filterWidth = (int)numericUpDown_segmentationFilterWidth.Value;
             intencityThreshold = (int)numericUpDown_segmentationIntencityThreshold.Value;
@@ -517,6 +528,7 @@ namespace DICOMopener
 
                 // segmentation failed; return to the previous state
                 ClearSegmentationData();
+                ClearGarbage();
                 return;
             }
             TimeSpan segmentationTime = DateTime.Now - startSegmentationTime;           
@@ -604,8 +616,7 @@ namespace DICOMopener
             ClearSegmentationData();
 
             // Garbage Collector force call
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            ClearGarbage();
         }
 
         private void button_excludeSlices_Click(object sender, EventArgs e)
@@ -643,8 +654,7 @@ namespace DICOMopener
             ClearSegmentationData();
 
             // Garbage Collector force call
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            ClearGarbage();
 
             // if all sclices are excluding
             if ((fromBegin + fromEnd) >= dicomMatrices.Length)
@@ -652,9 +662,7 @@ namespace DICOMopener
                 ClearDICOMData(); // clear DICOM data
 
                 // Garbage Collector force call
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-
+                ClearGarbage();
                 return;
             }
 
@@ -669,8 +677,7 @@ namespace DICOMopener
             filenames = newFilenames;
 
             // Garbage Collector force call
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+            ClearGarbage();
 
             // fill GUI elements
             int defaultIndex = 0;
