@@ -18,7 +18,7 @@ namespace DICOMopener
             int images_number, int image_height, int image_width, int filter_width = 9, int intencity_threshold = 60);
 
         private static string[] filenames = null;
-        private static Array[] dicomMatrices = null; // contains a ct slice per element
+        private static Array[] dicomMatrices = null; // contains DICOM units of each ct slice per array element
         private static int imageMatrixHeight = 0;
         private static int imageMatrixWidth = 0;
 
@@ -100,6 +100,17 @@ namespace DICOMopener
             // remove all information about segmented images
             ClearSegmentationData();
             pictureBox_segmentedImage.Image = null;
+        }
+
+        /// <summary>
+        /// Clear the data structures for DICOM data
+        /// </summary>
+        private void ClearDICOMData()
+        {
+            filenames = null;
+            dicomMatrices = null;
+            imageMatrixHeight = 0;
+            imageMatrixWidth = 0;
         }
 
         /// <summary>
@@ -195,11 +206,7 @@ namespace DICOMopener
             toolStripStatusLabel.Text = " ";
             label_trackBarValue.Text = " ";
 
-            filenames = null;
-            dicomMatrices = null;
-            imageMatrixHeight = 0;
-            imageMatrixWidth = 0;
-
+            ClearDICOMData();
             ClearSegmentationData();
 
             // Garbage Collector force call
@@ -248,10 +255,10 @@ namespace DICOMopener
                 eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
             pictureBox_DICOMImage.Image = DICOMImage;
 
-            trackBar.Maximum = filenames.Length - 1;
+            trackBar.Maximum = dicomMatrices.Length - 1;
             trackBar.Value = defaultIndex;
             toolStripStatusLabel.Text = string.Format("Loaded {0} files in {1}",
-                filenames.Length, loadFilesTime);
+                dicomMatrices.Length, loadFilesTime);
             label_trackBarValue.Text = defaultIndex.ToString();
         }
 
@@ -479,7 +486,7 @@ namespace DICOMopener
             {
                 DialogResult doSegmentationAgainResult =
                     MessageBox.Show("You have actual results of segmentation\nDo you want to do it again?",
-                    "Warning", MessageBoxButtons.YesNo);
+                    "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (doSegmentationAgainResult == DialogResult.No)
                     return;
             }
@@ -591,10 +598,7 @@ namespace DICOMopener
             label_trackBarValue.Text = " ";
 
             // clear DICOM data
-            filenames = null;
-            dicomMatrices = null;
-            imageMatrixHeight = 0;
-            imageMatrixWidth = 0;
+            ClearDICOMData();
 
             // clear data for segmentation
             ClearSegmentationData();
@@ -602,6 +606,82 @@ namespace DICOMopener
             // Garbage Collector force call
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        private void button_excludeSlices_Click(object sender, EventArgs e)
+        {
+            if (dicomMatrices == null)
+            {
+                MessageBox.Show("DICOM files are not loaded", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericUpDown_excludeSlicesFromBegin.Value < 0 || numericUpDown_excludeSlicesFromBegin.Value > dicomMatrices.Length)
+            {
+                MessageBox.Show("Value 'From begin' is invalid", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (numericUpDown_excludeSlicesFromEnd.Value < 0 || numericUpDown_excludeSlicesFromEnd.Value > dicomMatrices.Length)
+            {
+                MessageBox.Show("Value 'From end' is invalid", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int fromBegin = (int)numericUpDown_excludeSlicesFromBegin.Value;
+            int fromEnd = (int)numericUpDown_excludeSlicesFromEnd.Value;
+
+            // Clear all GUI data
+            pictureBox_DICOMImage.Image = null;
+            pictureBox_segmentedImage.Image = null;
+            trackBar.Maximum = 0;
+            trackBar.Value = 0;
+            toolStripStatusLabel.Text = " ";
+            label_trackBarValue.Text = " ";
+
+            // Clear segmentation data
+            ClearSegmentationData();
+
+            // Garbage Collector force call
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            // if all sclices are excluding
+            if ((fromBegin + fromEnd) >= dicomMatrices.Length)
+            {
+                ClearDICOMData(); // clear DICOM data
+
+                // Garbage Collector force call
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                return;
+            }
+
+            int newLength = dicomMatrices.Length - (fromBegin + fromEnd);
+
+            Array[] subMatrices = new Array[newLength];
+            Array.Copy(dicomMatrices, fromBegin, subMatrices, 0, newLength);
+            dicomMatrices = subMatrices;
+
+            string[] newFilenames = new string[newLength];
+            Array.Copy(filenames, fromBegin, newFilenames, 0, newLength);
+            filenames = newFilenames;
+
+            // Garbage Collector force call
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            // fill GUI elements
+            int defaultIndex = 0;
+            Bitmap DICOMImage = ImageProcessing.GetBitmapFrom16Matrix(dicomMatrices[defaultIndex], imageMatrixHeight, imageMatrixWidth,
+                eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit);
+            pictureBox_DICOMImage.Image = DICOMImage;
+
+            trackBar.Maximum = dicomMatrices.Length - 1;
+            trackBar.Value = defaultIndex;
+            toolStripStatusLabel.Text = string.Format("DICOM files recreation: {0} files loaded", dicomMatrices.Length);
+            label_trackBarValue.Text = defaultIndex.ToString();
         }
     }
 }
