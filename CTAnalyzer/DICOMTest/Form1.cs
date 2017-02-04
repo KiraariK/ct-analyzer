@@ -98,12 +98,20 @@ namespace DICOMopener
             pictureBox_DICOMImage.Image = DICOMImage;
 
             // remove all information about segmented images
+            ClearSegmentationData();
+            pictureBox_segmentedImage.Image = null;
+        }
+
+        /// <summary>
+        /// Clear the data structures for segmentation data
+        /// </summary>
+        private void ClearSegmentationData()
+        {
             ctRegions = null;
             filterWidth = 0;
             intencityThreshold = 0;
             segmentsNumber = 0;
             colorFactory = null;
-            pictureBox_segmentedImage.Image = null;
         }
 
         /// <summary>
@@ -192,11 +200,7 @@ namespace DICOMopener
             imageMatrixHeight = 0;
             imageMatrixWidth = 0;
 
-            ctRegions = null;
-            filterWidth = 0;
-            intencityThreshold = 0;
-            segmentsNumber = 0;
-            colorFactory = null;
+            ClearSegmentationData();
 
             // Garbage Collector force call
             GC.Collect();
@@ -481,11 +485,7 @@ namespace DICOMopener
             }
 
             // prepare for a new segmentation
-            ctRegions = null;
-            filterWidth = 0;
-            intencityThreshold = 0;
-            segmentsNumber = 0;
-            colorFactory = null;
+            ClearSegmentationData();
             pictureBox_segmentedImage.Image = null;
 
             // start new segmentation
@@ -508,6 +508,8 @@ namespace DICOMopener
                 else
                     MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+                // segmentation failed; return to the previous state
+                ClearSegmentationData();
                 return;
             }
             TimeSpan segmentationTime = DateTime.Now - startSegmentationTime;           
@@ -595,11 +597,7 @@ namespace DICOMopener
             imageMatrixWidth = 0;
 
             // clear data for segmentation
-            ctRegions = null;
-            filterWidth = 0;
-            intencityThreshold = 0;
-            segmentsNumber = 0;
-            colorFactory = null;
+            ClearSegmentationData();
 
             // Garbage Collector force call
             GC.Collect();
