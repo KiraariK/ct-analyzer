@@ -64,12 +64,12 @@
             this.label_segmentationFilterWidth = new System.Windows.Forms.Label();
             this.button_close = new System.Windows.Forms.Button();
             this.panel_excludeSlices = new System.Windows.Forms.Panel();
-            this.label_slicesExcluding = new System.Windows.Forms.Label();
-            this.label_excludeSlicesFromBegin = new System.Windows.Forms.Label();
-            this.numericUpDown_excludeSlicesFromBegin = new System.Windows.Forms.NumericUpDown();
-            this.label_excludeSlicesFromEnd = new System.Windows.Forms.Label();
-            this.numericUpDown_excludeSlicesFromEnd = new System.Windows.Forms.NumericUpDown();
             this.button_excludeSlices = new System.Windows.Forms.Button();
+            this.numericUpDown_excludeSlicesFromEnd = new System.Windows.Forms.NumericUpDown();
+            this.label_excludeSlicesFromEnd = new System.Windows.Forms.Label();
+            this.numericUpDown_excludeSlicesFromBegin = new System.Windows.Forms.NumericUpDown();
+            this.label_excludeSlicesFromBegin = new System.Windows.Forms.Label();
+            this.label_slicesExcluding = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -80,8 +80,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationIntencityThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).BeginInit();
             this.panel_excludeSlices.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_excludeSlicesFromBegin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_excludeSlicesFromEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_excludeSlicesFromBegin)).BeginInit();
             this.SuspendLayout();
             // 
             // button_open
@@ -327,6 +327,7 @@
             this.pictureBox_segmentedImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_segmentedImage.TabIndex = 8;
             this.pictureBox_segmentedImage.TabStop = false;
+            this.pictureBox_segmentedImage.DoubleClick += new System.EventHandler(this.pictureBox_segmentedImage_DoubleClick);
             // 
             // button_saveSegmentedImage
             // 
@@ -443,32 +444,23 @@
             this.panel_excludeSlices.Size = new System.Drawing.Size(399, 145);
             this.panel_excludeSlices.TabIndex = 13;
             // 
-            // label_slicesExcluding
+            // button_excludeSlices
             // 
-            this.label_slicesExcluding.AutoSize = true;
-            this.label_slicesExcluding.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_slicesExcluding.Location = new System.Drawing.Point(11, 4);
-            this.label_slicesExcluding.Name = "label_slicesExcluding";
-            this.label_slicesExcluding.Size = new System.Drawing.Size(122, 20);
-            this.label_slicesExcluding.TabIndex = 0;
-            this.label_slicesExcluding.Text = "Exclude sclices";
+            this.button_excludeSlices.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_excludeSlices.Location = new System.Drawing.Point(7, 102);
+            this.button_excludeSlices.Name = "button_excludeSlices";
+            this.button_excludeSlices.Size = new System.Drawing.Size(102, 36);
+            this.button_excludeSlices.TabIndex = 5;
+            this.button_excludeSlices.Text = "Exclude";
+            this.button_excludeSlices.UseVisualStyleBackColor = true;
+            this.button_excludeSlices.Click += new System.EventHandler(this.button_excludeSlices_Click);
             // 
-            // label_excludeSlicesFromBegin
+            // numericUpDown_excludeSlicesFromEnd
             // 
-            this.label_excludeSlicesFromBegin.AutoSize = true;
-            this.label_excludeSlicesFromBegin.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label_excludeSlicesFromBegin.Location = new System.Drawing.Point(11, 39);
-            this.label_excludeSlicesFromBegin.Name = "label_excludeSlicesFromBegin";
-            this.label_excludeSlicesFromBegin.Size = new System.Drawing.Size(101, 20);
-            this.label_excludeSlicesFromBegin.TabIndex = 1;
-            this.label_excludeSlicesFromBegin.Text = "From begin:";
-            // 
-            // numericUpDown_excludeSlicesFromBegin
-            // 
-            this.numericUpDown_excludeSlicesFromBegin.Location = new System.Drawing.Point(229, 37);
-            this.numericUpDown_excludeSlicesFromBegin.Name = "numericUpDown_excludeSlicesFromBegin";
-            this.numericUpDown_excludeSlicesFromBegin.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDown_excludeSlicesFromBegin.TabIndex = 2;
+            this.numericUpDown_excludeSlicesFromEnd.Location = new System.Drawing.Point(229, 71);
+            this.numericUpDown_excludeSlicesFromEnd.Name = "numericUpDown_excludeSlicesFromEnd";
+            this.numericUpDown_excludeSlicesFromEnd.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDown_excludeSlicesFromEnd.TabIndex = 4;
             // 
             // label_excludeSlicesFromEnd
             // 
@@ -480,23 +472,32 @@
             this.label_excludeSlicesFromEnd.TabIndex = 3;
             this.label_excludeSlicesFromEnd.Text = "From end:";
             // 
-            // numericUpDown_excludeSlicesFromEnd
+            // numericUpDown_excludeSlicesFromBegin
             // 
-            this.numericUpDown_excludeSlicesFromEnd.Location = new System.Drawing.Point(229, 71);
-            this.numericUpDown_excludeSlicesFromEnd.Name = "numericUpDown_excludeSlicesFromEnd";
-            this.numericUpDown_excludeSlicesFromEnd.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDown_excludeSlicesFromEnd.TabIndex = 4;
+            this.numericUpDown_excludeSlicesFromBegin.Location = new System.Drawing.Point(229, 37);
+            this.numericUpDown_excludeSlicesFromBegin.Name = "numericUpDown_excludeSlicesFromBegin";
+            this.numericUpDown_excludeSlicesFromBegin.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDown_excludeSlicesFromBegin.TabIndex = 2;
             // 
-            // button_excludeSlices
+            // label_excludeSlicesFromBegin
             // 
-            this.button_excludeSlices.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_excludeSlices.Location = new System.Drawing.Point(7, 102);
-            this.button_excludeSlices.Name = "button_excludeSlices";
-            this.button_excludeSlices.Size = new System.Drawing.Size(102, 36);
-            this.button_excludeSlices.TabIndex = 5;
-            this.button_excludeSlices.Text = "Exclude";
-            this.button_excludeSlices.UseVisualStyleBackColor = true;
-            this.button_excludeSlices.Click += new System.EventHandler(this.button_excludeSlices_Click);
+            this.label_excludeSlicesFromBegin.AutoSize = true;
+            this.label_excludeSlicesFromBegin.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_excludeSlicesFromBegin.Location = new System.Drawing.Point(11, 39);
+            this.label_excludeSlicesFromBegin.Name = "label_excludeSlicesFromBegin";
+            this.label_excludeSlicesFromBegin.Size = new System.Drawing.Size(101, 20);
+            this.label_excludeSlicesFromBegin.TabIndex = 1;
+            this.label_excludeSlicesFromBegin.Text = "From begin:";
+            // 
+            // label_slicesExcluding
+            // 
+            this.label_slicesExcluding.AutoSize = true;
+            this.label_slicesExcluding.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_slicesExcluding.Location = new System.Drawing.Point(11, 4);
+            this.label_slicesExcluding.Name = "label_slicesExcluding";
+            this.label_slicesExcluding.Size = new System.Drawing.Size(122, 20);
+            this.label_slicesExcluding.TabIndex = 0;
+            this.label_slicesExcluding.Text = "Exclude sclices";
             // 
             // MainForm
             // 
@@ -520,7 +521,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DICOMViewer";
+            this.Text = "DICOM Analyzer";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).EndInit();
             this.statusStrip.ResumeLayout(false);
@@ -537,8 +538,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_segmentationFilterWidth)).EndInit();
             this.panel_excludeSlices.ResumeLayout(false);
             this.panel_excludeSlices.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_excludeSlicesFromBegin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_excludeSlicesFromEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_excludeSlicesFromBegin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

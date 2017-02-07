@@ -74,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Imaging\ColorFactory.cs" />
+    <Compile Include="SegmentsDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SegmentsDetails.Designer.cs">
+      <DependentUpon>SegmentsDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ArrayProcessor.cs" />
     <Compile Include="CTwindows\EWindow.cs" />
     <Compile Include="CTwindows\EWindowType.cs" />
@@ -100,6 +106,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SegmentsDetails.resx">
+      <DependentUpon>SegmentsDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

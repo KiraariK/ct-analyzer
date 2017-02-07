@@ -690,5 +690,22 @@ namespace DICOMopener
             toolStripStatusLabel.Text = string.Format("DICOM files recreation: {0} files loaded", dicomMatrices.Length);
             label_trackBarValue.Text = defaultIndex.ToString();
         }
+
+        private void pictureBox_segmentedImage_DoubleClick(object sender, EventArgs e)
+        {
+            PictureBox pBox = (PictureBox)sender;
+            if (sender == null)
+                return;
+
+            if (ctRegions == null || pBox.Image == null)
+                return;
+
+            MWCharArray matlabFilename = new MWCharArray(new string(filenames[trackBar.Value].ToCharArray())); // creating a MATLAB char array
+            var matlabSpacingMatrix = reader.get_spacing(matlabFilename); // call MATLAB function
+
+            var detailedForm = SegmentsDetails.GetInstance(ctRegions[trackBar.Value], imageMatrixHeight, imageMatrixWidth,
+                colorFactory, matlabSpacingMatrix.ToArray());
+            detailedForm.Show();
+        }
     }
 }
