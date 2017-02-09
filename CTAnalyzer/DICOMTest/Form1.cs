@@ -488,8 +488,8 @@ namespace DICOMopener
                 return;
             }
 
-            if (ctRegions != null && 
-                filterWidth == (int)numericUpDown_segmentationFilterWidth.Value && 
+            if (ctRegions != null &&
+                filterWidth == (int)numericUpDown_segmentationFilterWidth.Value &&
                 intencityThreshold == (int)numericUpDown_segmentationIntencityThreshold.Value)
             {
                 DialogResult doSegmentationAgainResult =
@@ -531,7 +531,7 @@ namespace DICOMopener
                 ClearGarbage();
                 return;
             }
-            TimeSpan segmentationTime = DateTime.Now - startSegmentationTime;           
+            TimeSpan segmentationTime = DateTime.Now - startSegmentationTime;
 
             // creating colors for segmented image visualization
             colorFactory = new Imaging.ColorFactory(segmentsNumber);
@@ -700,11 +700,45 @@ namespace DICOMopener
             if (ctRegions == null || pBox.Image == null)
                 return;
 
+            // getting image for current electronic window
+            byte[,] intencityInput = new byte[imageMatrixHeight, imageMatrixWidth];
+
+            short minBorder = eWindow.MinBorder.DICOMUnit;
+            short maxBorder = eWindow.MaxBorder.DICOMUnit;
+            short minIntencity = eWindow.MinLevel.DICOMUnit;
+            short maxIntencity = eWindow.MaxLevel.DICOMUnit;
+            if (minIntencity < minBorder)
+                minIntencity = minBorder;
+            if (maxIntencity > maxBorder)
+                maxIntencity = maxBorder;
+
+            for (int i = 0; i < imageMatrixHeight; i++)
+            {
+                for (int j = 0; j < imageMatrixWidth; j++)
+                {
+                    short valueFromArray = (short)dicomMatrices[trackBar.Value].GetValue(i, j);
+
+                    byte valueForImage = 0;
+                    if (valueFromArray >= minBorder && valueFromArray <= maxBorder)
+                    {
+                        // if value is outside of the electronic window
+                        if (valueFromArray < minIntencity)
+                            valueFromArray = minIntencity;
+                        if (valueFromArray > maxIntencity)
+                            valueFromArray = maxIntencity;
+
+                        valueForImage = (byte)(((valueFromArray - minIntencity) / (float)(maxIntencity - minIntencity)) * 255);
+                    }
+
+                    intencityInput[i, j] = valueForImage;
+                }
+            }
+
             MWCharArray matlabFilename = new MWCharArray(new string(filenames[trackBar.Value].ToCharArray())); // creating a MATLAB char array
             var matlabSpacingMatrix = reader.get_spacing(matlabFilename); // call MATLAB function
 
-            var detailedForm = SegmentsDetails.GetInstance(ctRegions[trackBar.Value], imageMatrixHeight, imageMatrixWidth,
-                colorFactory, matlabSpacingMatrix.ToArray());
+            var detailedForm = SegmentsDetails.GetInstance(intencityInput, imageMatrixHeight, imageMatrixWidth,
+                matlabSpacingMatrix.ToArray(), filterWidth, intencityThreshold);
             detailedForm.Show();
         }
     }

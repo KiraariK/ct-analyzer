@@ -86,6 +86,7 @@
             this.Controls.Add(this.pictureBox_segmentsDetails);
             this.Name = "SegmentsDetails";
             this.Text = "Segments Details";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SegmentsDetails_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentsDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

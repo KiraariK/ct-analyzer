@@ -92,7 +92,7 @@
             this.button_open.Name = "button_open";
             this.button_open.Size = new System.Drawing.Size(231, 43);
             this.button_open.TabIndex = 0;
-            this.button_open.Text = "open DICOM files";
+            this.button_open.Text = "Open DICOM files";
             this.button_open.UseVisualStyleBackColor = true;
             this.button_open.Click += new System.EventHandler(this.button_open_Click);
             // 
@@ -422,11 +422,11 @@
             // button_close
             // 
             this.button_close.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_close.Location = new System.Drawing.Point(1444, 12);
+            this.button_close.Location = new System.Drawing.Point(1375, 12);
             this.button_close.Name = "button_close";
-            this.button_close.Size = new System.Drawing.Size(75, 43);
+            this.button_close.Size = new System.Drawing.Size(144, 43);
             this.button_close.TabIndex = 12;
-            this.button_close.Text = "Close";
+            this.button_close.Text = "Close patient";
             this.button_close.UseVisualStyleBackColor = true;
             this.button_close.Click += new System.EventHandler(this.button_close_Click);
             // 
