@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClInclude Include="Node.h" />
     <ClInclude Include="Segmentation.h" />
+    <ClInclude Include="slice_segmentation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="program.cpp" />
     <ClCompile Include="Segmentation.cpp" />
+    <ClCompile Include="slice_segmentation.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{469FFDCE-6E6C-451D-A690-BFB76C1BDA44}</ProjectGuid>
