@@ -57,17 +57,19 @@
             // listBox_segmentSizes
             // 
             this.listBox_segmentSizes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.listBox_segmentSizes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox_segmentSizes.FormattingEnabled = true;
+            this.listBox_segmentSizes.ItemHeight = 18;
             this.listBox_segmentSizes.Location = new System.Drawing.Point(12, 555);
             this.listBox_segmentSizes.Name = "listBox_segmentSizes";
-            this.listBox_segmentSizes.Size = new System.Drawing.Size(720, 95);
+            this.listBox_segmentSizes.Size = new System.Drawing.Size(720, 130);
             this.listBox_segmentSizes.TabIndex = 2;
             this.listBox_segmentSizes.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox_segmentSizes_DrawItem);
             // 
             // button_closeForm
             // 
             this.button_closeForm.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button_closeForm.Location = new System.Drawing.Point(322, 670);
+            this.button_closeForm.Location = new System.Drawing.Point(336, 699);
             this.button_closeForm.Name = "button_closeForm";
             this.button_closeForm.Size = new System.Drawing.Size(75, 36);
             this.button_closeForm.TabIndex = 3;
@@ -79,7 +81,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(744, 718);
+            this.ClientSize = new System.Drawing.Size(744, 744);
             this.Controls.Add(this.button_closeForm);
             this.Controls.Add(this.listBox_segmentSizes);
             this.Controls.Add(this.label_segmentSizes);
@@ -87,6 +89,7 @@
             this.Name = "SegmentsDetails";
             this.Text = "Segments Details";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SegmentsDetails_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SegmentsDetails_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentsDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

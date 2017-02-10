@@ -73,12 +73,17 @@ namespace DICOMopener
 
         private void FillFormControlls()
         {
+            // set bitmap to picture box
             Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(regions, _imageHeight, _imageWidth, colorFactory);
             pictureBox_segmentsDetails.Image = segmentedImage;
 
-            listBox_segmentSizes.Items.Add("Max sizes of each region:");
-            foreach(KeyValuePair<int, double> it in regionsSize)
-                listBox_segmentSizes.Items.Add(string.Format("{0} region, max size = {1} mm", it.Key, it.Value));
+            // set regions size to list box
+            List<int> regionsSizeKeys = regionsSize.Keys.ToList();
+            regionsSizeKeys.Sort(); // sort keys by ascending as the list of colors in colorFactory
+
+            listBox_segmentSizes.Items.Add("Max sizes of each segment (except border and air):");
+            foreach(int sizeKey in regionsSizeKeys)
+                listBox_segmentSizes.Items.Add(string.Format("{0} region, max size = {1} mm", sizeKey, regionsSize[sizeKey]));
         }
 
         private unsafe static void SliceSegmentation(byte[,] intencity, int filterWidth, int intencityThreshold)
@@ -284,15 +289,6 @@ namespace DICOMopener
                     regionsSize.Add(it.Key, Math.Max(it.Value, verticalSizes[it.Key]));
         }
 
-        /// <summary>
-        /// Forced Garbale Collector call
-        /// </summary>
-        private void ClearGarbage()
-        {
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
-
         private void listBox_segmentSizes_DrawItem(object sender, DrawItemEventArgs e)
         {
             ListBox lb = (ListBox)sender;
@@ -328,8 +324,14 @@ namespace DICOMopener
             regionsSize = null;
             instance = null;
 
-            ClearGarbage();
             Dispose();
+        }
+
+        private void SegmentsDetails_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // call garbage collector
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }
