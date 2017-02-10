@@ -75,6 +75,10 @@ namespace DICOMopener
         {
             Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(regions, _imageHeight, _imageWidth, colorFactory);
             pictureBox_segmentsDetails.Image = segmentedImage;
+
+            listBox_segmentSizes.Items.Add("Max sizes of each region:");
+            foreach(KeyValuePair<int, double> it in regionsSize)
+                listBox_segmentSizes.Items.Add(string.Format("{0} region, max size = {1} mm", it.Key, it.Value));
         }
 
         private unsafe static void SliceSegmentation(byte[,] intencity, int filterWidth, int intencityThreshold)
@@ -240,8 +244,8 @@ namespace DICOMopener
                             regionHorizontalSizes.Add
                             (
                                 Math.Sqrt(
-                                    Math.Pow(((it.Value.ElementAt(i).X - rightCoordinates[it.Key].ElementAt(j).X) * rowSpacing), 2) +
-                                    Math.Pow(((it.Value.ElementAt(i).Y - rightCoordinates[it.Key].ElementAt(j).Y) * columnSpacing), 2)
+                                    Math.Pow(((Math.Abs(it.Value.ElementAt(i).X - rightCoordinates[it.Key].ElementAt(j).X)) * rowSpacing), 2) +
+                                    Math.Pow(((Math.Abs(it.Value.ElementAt(i).Y - rightCoordinates[it.Key].ElementAt(j).Y)) * columnSpacing), 2)
                                 )
                             );
                         }
@@ -264,8 +268,8 @@ namespace DICOMopener
                             regionVerticalSizes.Add
                             (
                                 Math.Sqrt(
-                                    Math.Pow(((it.Value.ElementAt(i).X - bottomCoordinates[it.Key].ElementAt(j).X) * rowSpacing), 2) +
-                                    Math.Pow(((it.Value.ElementAt(i).Y - bottomCoordinates[it.Key].ElementAt(j).Y) * columnSpacing), 2)
+                                    Math.Pow(((Math.Abs(it.Value.ElementAt(i).X - bottomCoordinates[it.Key].ElementAt(j).X)) * rowSpacing), 2) +
+                                    Math.Pow(((Math.Abs(it.Value.ElementAt(i).Y - bottomCoordinates[it.Key].ElementAt(j).Y)) * columnSpacing), 2)
                                 )
                             );
                         }
@@ -291,7 +295,25 @@ namespace DICOMopener
 
         private void listBox_segmentSizes_DrawItem(object sender, DrawItemEventArgs e)
         {
+            ListBox lb = (ListBox)sender;
+            if (sender == null)
+                return;
 
+            e.DrawBackground();
+            Graphics g = e.Graphics;
+
+            Color rectangleColor = e.BackColor;
+            if (e.Index > 0) // all segments except border and air
+            {
+                var regionColor = colorFactory.CreatedColors[e.Index];
+                rectangleColor = Color.FromArgb(regionColor.red, regionColor.green, regionColor.blue);
+            }
+
+            g.FillRectangle(new SolidBrush(rectangleColor), e.Bounds);
+
+            e.Graphics.DrawString(lb.Items[e.Index].ToString(), e.Font, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+
+            e.DrawFocusRectangle();
         }
 
         private void button_closeForm_Click(object sender, EventArgs e)
