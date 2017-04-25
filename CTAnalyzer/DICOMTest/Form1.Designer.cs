@@ -70,6 +70,7 @@
             this.numericUpDown_excludeSlicesFromBegin = new System.Windows.Forms.NumericUpDown();
             this.label_excludeSlicesFromBegin = new System.Windows.Forms.Label();
             this.label_slicesExcluding = new System.Windows.Forms.Label();
+            this.button_calculateSegmentsSizes = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -499,11 +500,23 @@
             this.label_slicesExcluding.TabIndex = 0;
             this.label_slicesExcluding.Text = "Exclude sclices";
             // 
+            // button_calculateSegmentsSizes
+            // 
+            this.button_calculateSegmentsSizes.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_calculateSegmentsSizes.Location = new System.Drawing.Point(1035, 507);
+            this.button_calculateSegmentsSizes.Name = "button_calculateSegmentsSizes";
+            this.button_calculateSegmentsSizes.Size = new System.Drawing.Size(144, 44);
+            this.button_calculateSegmentsSizes.TabIndex = 14;
+            this.button_calculateSegmentsSizes.Text = "Calculate sizes";
+            this.button_calculateSegmentsSizes.UseVisualStyleBackColor = true;
+            this.button_calculateSegmentsSizes.Click += new System.EventHandler(this.button_calculateSegmentsSizes_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1549, 682);
+            this.Controls.Add(this.button_calculateSegmentsSizes);
             this.Controls.Add(this.panel_excludeSlices);
             this.Controls.Add(this.button_close);
             this.Controls.Add(this.panel_segmentationParameters);
@@ -589,6 +602,7 @@
         private System.Windows.Forms.Button button_excludeSlices;
         private System.Windows.Forms.NumericUpDown numericUpDown_excludeSlicesFromEnd;
         private System.Windows.Forms.Label label_excludeSlicesFromEnd;
+        private System.Windows.Forms.Button button_calculateSegmentsSizes;
     }
 }
 

@@ -750,5 +750,18 @@ namespace DICOMopener
                 matlabSpacingMatrix.ToArray(), filterWidth, intencityThreshold);
             detailedForm.Show();
         }
+
+        private void button_calculateSegmentsSizes_Click(object sender, EventArgs e)
+        {
+            if (ctRegions == null)
+                return;
+
+            MWCharArray matlabFilename = new MWCharArray(new string(filenames[trackBar.Value].ToCharArray())); // creating a MATLAB char array
+            var matlabSpacingMatrix = reader.get_spacing(matlabFilename); // call MATLAB function
+
+            var segmentsSizesForm = SegmentsSizes.GetInstance(ctRegions, colorFactory, segmentsDencity, ctRegions.Length,
+                imageMatrixHeight, imageMatrixWidth, matlabSpacingMatrix.ToArray(), trackBar.Value);
+            segmentsSizesForm.Show();
+        }
     }
 }
