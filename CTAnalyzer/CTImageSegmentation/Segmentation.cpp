@@ -14,10 +14,13 @@ void do_segmentation(unsigned char* input, int* region_numbers_array, int image_
 
 int merge_regions(unsigned char* input, int* region_numbers_array, int images_number, int image_height, int image_width);
 
+unsigned char* get_regions_dencity(unsigned char* filtered_images, int* region_numbers_array, int regions_number,
+	int images_number, int image_height, int image_width);
+
 void fill_result(int* result, int* region_numbers, int images_number, int image_height, int image_width,
 	int filtered_image_height, int filtered_image_width, int filter_width);
 
-int segmentation(unsigned char* intencity_input, int* regions_output, int images_number,
+unsigned char* segmentation(unsigned char* intencity_input, int* regions_output, int* regions_number, int images_number,
 	int image_height, int image_width, int filter_width = 9, int intencity_threshold = 60)
 {
 	// filtration
@@ -54,8 +57,12 @@ int segmentation(unsigned char* intencity_input, int* regions_output, int images
 			labelTD, labelLR, min, max, nodes_map);
 
 	// merging of regions
-	int regions_number = merge_regions(filtered_images, region_numbers_array, images_number,
+	*regions_number = merge_regions(filtered_images, region_numbers_array, images_number,
 		filtered_image_height, filtered_image_width);
+
+	// create regions dencity array
+	unsigned char* regions_dencity = get_regions_dencity(filtered_images, region_numbers_array, *regions_number,
+		images_number, filtered_image_height, filtered_image_width);
 
 	// fill result map
 	fill_result(regions_output, region_numbers_array, images_number, image_height, image_width,
@@ -81,7 +88,7 @@ int segmentation(unsigned char* intencity_input, int* regions_output, int images
 	delete[] filtered_images;
 	delete[] region_numbers_array;
 
-	return regions_number;
+	return regions_dencity;
 }
 
 unsigned char* filtration(unsigned char* intencity_input, int images_number, int image_height, int image_width, int filtered_image_height,
@@ -470,6 +477,35 @@ int merge_regions(unsigned char* input, int* region_numbers_array, int images_nu
 	delete[] global_regions_map;
 
 	return regions_counter;
+}
+
+unsigned char* get_regions_dencity(unsigned char* filtered_images, int* region_numbers_array, int regions_number,
+	int images_number, int image_height, int image_width)
+{
+	int image_size = image_height * image_width;
+	unsigned char default_dencity_value = 1;
+
+	unsigned char* regions_dencity = new unsigned char[regions_number];
+	for (int i = 0; i < regions_number; i++)
+		regions_dencity[i] = default_dencity_value; // initialization
+
+	for (int k = 1; k < images_number; k++)
+	{
+		for (int i = 0; i < image_height; i++)
+		{
+			for (int j = 0; j < image_width; j++)
+			{
+				// if the region has already been seen
+				if (regions_dencity[region_numbers_array[(image_size * k) + (image_width * i) + j]] != default_dencity_value)
+					continue;
+
+				regions_dencity[region_numbers_array[(image_size * k) + (image_width * i) + j]] =
+					filtered_images[(image_size * k) + (image_width * i) + j];
+			}
+		}
+	}
+
+	return regions_dencity;
 }
 
 void fill_result(int* result, int* region_numbers, int images_number, int image_height, int image_width,

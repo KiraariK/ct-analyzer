@@ -14,7 +14,7 @@ namespace DICOMopener
     public partial class MainForm : Form
     {
         [DllImport("CTImageSegmentation.dll", CallingConvention = CallingConvention.Cdecl)]
-        unsafe public extern static int CtSegmentation(byte* intencity_input, int* regions_output,
+        unsafe public extern static byte* CtSegmentation(byte* intencity_input, int* regions_output, int* regions_number,
             int images_number, int image_height, int image_width, int filter_width = 9, int intencity_threshold = 60);
 
         private static string[] filenames = null;
@@ -23,6 +23,7 @@ namespace DICOMopener
         private static int imageMatrixWidth = 0;
 
         private static int[][,] ctRegions = null; // contains region indexes as 2D array in an array of all slices
+        private static byte[] segmentsDencity = null; // contains values (0 or 255) of regions' dencity (array's index - region number)
         private static int filterWidth = 0; // filter width for ct image segmentation
         private static int intencityThreshold = 0; // intencity threshold for ct image segmentation
         private static int segmentsNumber = 0;
@@ -119,6 +120,7 @@ namespace DICOMopener
         private void ClearSegmentationData()
         {
             ctRegions = null;
+            segmentsDencity = null;
             filterWidth = 0;
             intencityThreshold = 0;
             segmentsNumber = 0;
@@ -152,6 +154,7 @@ namespace DICOMopener
             int imageSize = imageMatrixHeight * imageMatrixWidth;
             byte[] intencityInput = new byte[imagesNumber * imageSize];
             int[] regionsOutput = new int[imagesNumber * imageSize];
+            int regionsNumber;
 
             // set input parameters as image intencity of current electronic window
             if (minIntencity < minBorder)
@@ -194,8 +197,14 @@ namespace DICOMopener
             {
                 fixed (int* regionsOutput_ptr = regionsOutput)
                 {
-                    segmentsNumber = CtSegmentation(intencityInput_ptr, regionsOutput_ptr, imagesNumber,
+                    int* regionsNumber_ptr = &regionsNumber; // there is no need to fix the local variable
+                    byte* regionsDencity_ptr = CtSegmentation(intencityInput_ptr, regionsOutput_ptr, regionsNumber_ptr, imagesNumber,
                         imageMatrixHeight, imageMatrixWidth, filterWidth, intencityThreshold);
+
+                    segmentsNumber = *regionsNumber_ptr;
+                    segmentsDencity = new byte[segmentsNumber];
+                    for (int i = 0; i < segmentsNumber; i++)
+                        segmentsDencity[i] = regionsDencity_ptr[i];
 
                     // write result data to C# variables
                     for (int k = 0; k < imagesNumber; k++)
