@@ -137,5 +137,29 @@ namespace DICOMopener
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
+
+        private void SegmentsSizes_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (trackBar.Maximum == 0)
+                return;
+
+            if (e.KeyChar == (char)Keys.Right)
+            {
+                if (trackBar.Value >= trackBar.Maximum)
+                    return;
+
+                trackBar.Value += 1;
+                return;
+            }
+
+            if (e.KeyChar == (char)Keys.Left)
+            {
+                if (trackBar.Value <= 0)
+                    return;
+
+                trackBar.Value -= 1;
+                return;
+            }
+        }
     }
 }

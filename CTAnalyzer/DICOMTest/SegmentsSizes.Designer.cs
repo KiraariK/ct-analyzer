@@ -104,10 +104,10 @@
             // label_segmentsSizes
             // 
             this.label_segmentsSizes.AutoSize = true;
-            this.label_segmentsSizes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_segmentsSizes.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_segmentsSizes.Location = new System.Drawing.Point(853, 8);
             this.label_segmentsSizes.Name = "label_segmentsSizes";
-            this.label_segmentsSizes.Size = new System.Drawing.Size(172, 20);
+            this.label_segmentsSizes.Size = new System.Drawing.Size(166, 20);
             this.label_segmentsSizes.TabIndex = 6;
             this.label_segmentsSizes.Text = "Sizes of the segment:";
             // 
@@ -139,6 +139,7 @@
             this.Text = "Segments Sizes";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SegmentsSizes_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SegmentsSizes_FormClosed);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SegmentsSizes_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
             this.ResumeLayout(false);
