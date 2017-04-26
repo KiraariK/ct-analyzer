@@ -36,8 +36,11 @@
             this.label_segments = new System.Windows.Forms.Label();
             this.label_segmentsSizes = new System.Windows.Forms.Label();
             this.button_closeForm = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox_segmentedImage
@@ -80,6 +83,7 @@
             this.listBox_segments.Size = new System.Drawing.Size(172, 418);
             this.listBox_segments.TabIndex = 3;
             this.listBox_segments.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox_segments_DrawItem);
+            this.listBox_segments.SelectedIndexChanged += new System.EventHandler(this.listBox_segments_SelectedIndexChanged);
             // 
             // listBox_sizes
             // 
@@ -122,11 +126,29 @@
             this.button_closeForm.UseVisualStyleBackColor = true;
             this.button_closeForm.Click += new System.EventHandler(this.button_closeForm_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 623);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1264, 25);
+            this.statusStrip1.TabIndex = 8;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(13, 20);
+            this.toolStripStatusLabel.Text = " ";
+            // 
             // SegmentsSizes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 622);
+            this.ClientSize = new System.Drawing.Size(1264, 648);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.button_closeForm);
             this.Controls.Add(this.label_segmentsSizes);
             this.Controls.Add(this.label_segments);
@@ -142,6 +164,8 @@
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SegmentsSizes_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,5 +181,7 @@
         private System.Windows.Forms.Label label_segments;
         private System.Windows.Forms.Label label_segmentsSizes;
         private System.Windows.Forms.Button button_closeForm;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
     }
 }

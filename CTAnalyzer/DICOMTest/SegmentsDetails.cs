@@ -83,7 +83,7 @@ namespace DICOMopener
 
             listBox_segmentSizes.Items.Add("Max sizes of each segment (except border and air):");
             foreach(int sizeKey in regionsSizeKeys)
-                listBox_segmentSizes.Items.Add(string.Format("{0} region, max size = {1} mm", sizeKey, regionsSize[sizeKey]));
+                listBox_segmentSizes.Items.Add(string.Format("{0} region, max size = {1} mm", sizeKey, Math.Round(regionsSize[sizeKey], 2)));
         }
 
         private unsafe static void SliceSegmentation(byte[,] intencity, int filterWidth, int intencityThreshold)
@@ -113,6 +113,9 @@ namespace DICOMopener
             }
         }
 
+        /// <summary>
+        /// Calculates max size of each region on the slice, except regions with id = -1 and id = 0 (border and air)
+        /// </summary>
         private void CalculateRegionsSize()
         {
             // from top to bottom and from left to right (min x, any y)

@@ -23,7 +23,7 @@ namespace DICOMopener
         private static int imageMatrixWidth = 0;
 
         private static int[][,] ctRegions = null; // contains region indexes as 2D array in an array of all slices
-        private static byte[] segmentsDencity = null; // contains values (0 or 255) of regions' dencity (array's index - region number)
+        private static byte[] segmentsDencity = null; // contains values (0 or 255) of regions' dencity (array's index - region number) except border - region with id = -1
         private static int filterWidth = 0; // filter width for ct image segmentation
         private static int intencityThreshold = 0; // intencity threshold for ct image segmentation
         private static int segmentsNumber = 0;
