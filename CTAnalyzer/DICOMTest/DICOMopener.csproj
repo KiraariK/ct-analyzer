@@ -63,6 +63,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,6 +87,7 @@
     <Compile Include="SegmentsSizes.Designer.cs">
       <DependentUpon>SegmentsSizes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Serialization\CtSerializer.cs" />
     <Compile Include="Utils\ArrayProcessor.cs" />
     <Compile Include="CTwindows\EWindow.cs" />
     <Compile Include="CTwindows\EWindowType.cs" />

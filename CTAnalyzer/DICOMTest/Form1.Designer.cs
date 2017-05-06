@@ -71,6 +71,7 @@
             this.label_excludeSlicesFromBegin = new System.Windows.Forms.Label();
             this.label_slicesExcluding = new System.Windows.Forms.Label();
             this.button_calculateSegmentsSizes = new System.Windows.Forms.Button();
+            this.button_serializeCT = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -511,11 +512,23 @@
             this.button_calculateSegmentsSizes.UseVisualStyleBackColor = true;
             this.button_calculateSegmentsSizes.Click += new System.EventHandler(this.button_calculateSegmentsSizes_Click);
             // 
+            // button_serializeCT
+            // 
+            this.button_serializeCT.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_serializeCT.Location = new System.Drawing.Point(419, 25);
+            this.button_serializeCT.Name = "button_serializeCT";
+            this.button_serializeCT.Size = new System.Drawing.Size(118, 30);
+            this.button_serializeCT.TabIndex = 15;
+            this.button_serializeCT.Text = "Serialize CT";
+            this.button_serializeCT.UseVisualStyleBackColor = true;
+            this.button_serializeCT.Click += new System.EventHandler(this.button_serializeCT_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1549, 682);
+            this.Controls.Add(this.button_serializeCT);
             this.Controls.Add(this.button_calculateSegmentsSizes);
             this.Controls.Add(this.panel_excludeSlices);
             this.Controls.Add(this.button_close);
@@ -603,6 +616,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_excludeSlicesFromEnd;
         private System.Windows.Forms.Label label_excludeSlicesFromEnd;
         private System.Windows.Forms.Button button_calculateSegmentsSizes;
+        private System.Windows.Forms.Button button_serializeCT;
     }
 }
 

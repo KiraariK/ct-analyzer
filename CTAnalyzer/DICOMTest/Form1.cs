@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 using MathWorks.MATLAB.NET.Arrays;
 using MathWorks.MATLAB.NET.Utility;
@@ -477,6 +478,21 @@ namespace DICOMopener
 
                 trackBar.Value -= 1;
                 return;
+            }
+        }
+
+        private void button_serializeCT_Click(object sender, EventArgs e)
+        {
+            if (dicomMatrices == null) // DICOM files are not loaded
+                return;
+
+            saveFileDialog.Filter = "CtAnalyzer CT files (*.ctact)|*.ctact";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Serialization.CtSerializer ctSer = new Serialization.CtSerializer(filenames, dicomMatrices,
+                    imageMatrixHeight, imageMatrixWidth);
+                File.WriteAllText(saveFileDialog.FileName, ctSer.SerializeCtJson());
             }
         }
 
