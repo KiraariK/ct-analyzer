@@ -779,5 +779,17 @@ namespace DICOMopener
                 imageMatrixHeight, imageMatrixWidth, matlabSpacingMatrix.ToArray(), trackBar.Value);
             segmentsSizesForm.Show();
         }
+
+        private void button_highlightSegments_Click(object sender, EventArgs e)
+        {
+            if (ctRegions == null)
+                return;
+
+            var segmentsHighlightForm = SegmentsHighlight.GetInstanse(dicomMatrices, ctRegions, segmentsDencity,
+                ctRegions.Length, imageMatrixHeight,
+                imageMatrixHeight, eWindow.MinBorder.DICOMUnit, eWindow.MaxBorder.DICOMUnit, eWindow.MinLevel.DICOMUnit, eWindow.MaxLevel.DICOMUnit,
+                trackBar.Value, colorFactory);
+            segmentsHighlightForm.Show();
+        }
     }
 }

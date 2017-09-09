@@ -72,6 +72,7 @@
             this.label_slicesExcluding = new System.Windows.Forms.Label();
             this.button_calculateSegmentsSizes = new System.Windows.Forms.Button();
             this.button_serializeCT = new System.Windows.Forms.Button();
+            this.button_highlightSegments = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
@@ -523,11 +524,23 @@
             this.button_serializeCT.UseVisualStyleBackColor = true;
             this.button_serializeCT.Click += new System.EventHandler(this.button_serializeCT_Click);
             // 
+            // button_highlightSegments
+            // 
+            this.button_highlightSegments.Font = new System.Drawing.Font("Georgia", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button_highlightSegments.Location = new System.Drawing.Point(835, 507);
+            this.button_highlightSegments.Name = "button_highlightSegments";
+            this.button_highlightSegments.Size = new System.Drawing.Size(194, 44);
+            this.button_highlightSegments.TabIndex = 16;
+            this.button_highlightSegments.Text = "Highlight segments";
+            this.button_highlightSegments.UseVisualStyleBackColor = true;
+            this.button_highlightSegments.Click += new System.EventHandler(this.button_highlightSegments_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1549, 682);
+            this.Controls.Add(this.button_highlightSegments);
             this.Controls.Add(this.button_serializeCT);
             this.Controls.Add(this.button_calculateSegmentsSizes);
             this.Controls.Add(this.panel_excludeSlices);
@@ -617,6 +630,7 @@
         private System.Windows.Forms.Label label_excludeSlicesFromEnd;
         private System.Windows.Forms.Button button_calculateSegmentsSizes;
         private System.Windows.Forms.Button button_serializeCT;
+        private System.Windows.Forms.Button button_highlightSegments;
     }
 }
 

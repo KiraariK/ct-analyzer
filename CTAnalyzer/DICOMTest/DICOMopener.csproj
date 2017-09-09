@@ -81,6 +81,12 @@
     <Compile Include="SegmentsDetails.Designer.cs">
       <DependentUpon>SegmentsDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="SegmentsHighlight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SegmentsHighlight.Designer.cs">
+      <DependentUpon>SegmentsHighlight.cs</DependentUpon>
+    </Compile>
     <Compile Include="SegmentsSizes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </Compile>
     <EmbeddedResource Include="SegmentsDetails.resx">
       <DependentUpon>SegmentsDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SegmentsHighlight.resx">
+      <DependentUpon>SegmentsHighlight.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SegmentsSizes.resx">
       <DependentUpon>SegmentsSizes.cs</DependentUpon>
