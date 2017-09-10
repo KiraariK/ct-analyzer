@@ -166,6 +166,20 @@ namespace DICOMopener
             return resultBitmap;
         }
 
+        /// <summary>
+        /// Returns Bitmap with highlighted pixels which are belonged to regions
+        /// </summary>
+        /// <param name="matrix">Matrix of DICOM values</param>
+        /// <param name="segmentsMatrix">Matrix of segments number - result of segmentation</param>
+        /// <param name="regionsDencity">Array contains dencity of each region except border</param>
+        /// <param name="selectedRegionsIndeces">List of region indeces which is selected to highlight</param>
+        /// <param name="height">Height of DICOM and regions matrix</param>
+        /// <param name="width">Width of DICOM and regions matrix</param>
+        /// <param name="minBorder">The bottom level of DICOM velues range</param>
+        /// <param name="maxBorder">The top level of DICOM values range</param>
+        /// <param name="minIntencity">The bottom level of electronic window</param>
+        /// <param name="maxIntencity">The top level of electronic window</param>
+        /// <returns></returns>
         public static Bitmap GetBitmapFrom16MatrixWithHeighlights(Array matrix, int[,] segmentsMatrix,
             byte[] regionsDencity, List<int> selectedRegionsIndeces,
             int height, int width, short minBorder, short maxBorder, short minIntencity, short maxIntencity)
