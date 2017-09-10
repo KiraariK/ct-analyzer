@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.pictureBox_DICOMImage = new System.Windows.Forms.PictureBox();
-            this.pictureBox_segmentedIMage = new System.Windows.Forms.PictureBox();
+            this.pictureBox_segmentedImage = new System.Windows.Forms.PictureBox();
             this.listBox_segmentIndices = new System.Windows.Forms.ListBox();
             this.trackBar = new System.Windows.Forms.TrackBar();
             this.label_trackBarValue = new System.Windows.Forms.Label();
@@ -39,8 +39,10 @@
             this.button_saveSegmentedImage = new System.Windows.Forms.Button();
             this.button_saveAllSegmentedImages = new System.Windows.Forms.Button();
             this.label_segmentIndices = new System.Windows.Forms.Label();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedIMage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,14 +55,14 @@
             this.pictureBox_DICOMImage.TabIndex = 0;
             this.pictureBox_DICOMImage.TabStop = false;
             // 
-            // pictureBox_segmentedIMage
+            // pictureBox_segmentedImage
             // 
-            this.pictureBox_segmentedIMage.Location = new System.Drawing.Point(721, 12);
-            this.pictureBox_segmentedIMage.Name = "pictureBox_segmentedIMage";
-            this.pictureBox_segmentedIMage.Size = new System.Drawing.Size(440, 440);
-            this.pictureBox_segmentedIMage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_segmentedIMage.TabIndex = 1;
-            this.pictureBox_segmentedIMage.TabStop = false;
+            this.pictureBox_segmentedImage.Location = new System.Drawing.Point(721, 12);
+            this.pictureBox_segmentedImage.Name = "pictureBox_segmentedImage";
+            this.pictureBox_segmentedImage.Size = new System.Drawing.Size(440, 440);
+            this.pictureBox_segmentedImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_segmentedImage.TabIndex = 1;
+            this.pictureBox_segmentedImage.TabStop = false;
             // 
             // listBox_segmentIndices
             // 
@@ -116,6 +118,7 @@
             this.button_saveImage.TabIndex = 6;
             this.button_saveImage.Text = "Save image";
             this.button_saveImage.UseVisualStyleBackColor = true;
+            this.button_saveImage.Click += new System.EventHandler(this.button_saveImage_Click);
             // 
             // button_saveAllImages
             // 
@@ -126,6 +129,7 @@
             this.button_saveAllImages.TabIndex = 7;
             this.button_saveAllImages.Text = "Save all images";
             this.button_saveAllImages.UseVisualStyleBackColor = true;
+            this.button_saveAllImages.Click += new System.EventHandler(this.button_saveAllImages_Click);
             // 
             // button_saveSegmentedImage
             // 
@@ -136,6 +140,7 @@
             this.button_saveSegmentedImage.TabIndex = 8;
             this.button_saveSegmentedImage.Text = "Save image";
             this.button_saveSegmentedImage.UseVisualStyleBackColor = true;
+            this.button_saveSegmentedImage.Click += new System.EventHandler(this.button_saveSegmentedImage_Click);
             // 
             // button_saveAllSegmentedImages
             // 
@@ -146,6 +151,7 @@
             this.button_saveAllSegmentedImages.TabIndex = 9;
             this.button_saveAllSegmentedImages.Text = "Save all images";
             this.button_saveAllSegmentedImages.UseVisualStyleBackColor = true;
+            this.button_saveAllSegmentedImages.Click += new System.EventHandler(this.button_saveAllSegmentedImages_Click);
             // 
             // label_segmentIndices
             // 
@@ -171,12 +177,15 @@
             this.Controls.Add(this.label_trackBarValue);
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.listBox_segmentIndices);
-            this.Controls.Add(this.pictureBox_segmentedIMage);
+            this.Controls.Add(this.pictureBox_segmentedImage);
             this.Controls.Add(this.pictureBox_DICOMImage);
             this.Name = "SegmentsHighlight";
-            this.Text = "SegmentsHighlight";
+            this.Text = "Segments Highlight";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SegmentsHighlight_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SegmentsHighlight_FormClosed);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SegmentsHighlight_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DICOMImage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedIMage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_segmentedImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -186,7 +195,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox_DICOMImage;
-        private System.Windows.Forms.PictureBox pictureBox_segmentedIMage;
+        private System.Windows.Forms.PictureBox pictureBox_segmentedImage;
         private System.Windows.Forms.ListBox listBox_segmentIndices;
         private System.Windows.Forms.TrackBar trackBar;
         private System.Windows.Forms.Label label_trackBarValue;
@@ -196,5 +205,7 @@
         private System.Windows.Forms.Button button_saveSegmentedImage;
         private System.Windows.Forms.Button button_saveAllSegmentedImages;
         private System.Windows.Forms.Label label_segmentIndices;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
     }
 }

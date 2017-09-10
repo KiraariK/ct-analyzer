@@ -68,7 +68,7 @@ namespace DICOMopener
             // load segmented image
             Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(_ctRegions[imageDefaultIndex],
                 _imageMatrixHeight, _imageMatrixWidth, _cFactory);
-            pictureBox_segmentedIMage.Image = segmentedImage;
+            pictureBox_segmentedImage.Image = segmentedImage;
 
             trackBar.Maximum = _imagesNumber - 1;
             trackBar.Value = imageDefaultIndex;
@@ -132,7 +132,7 @@ namespace DICOMopener
             {
                 Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(_ctRegions[currentIndex],
                     _imageMatrixHeight, _imageMatrixWidth, _cFactory);
-                pictureBox_segmentedIMage.Image = segmentedImage;
+                pictureBox_segmentedImage.Image = segmentedImage;
             }
 
             label_trackBarValue.Text = currentIndex.ToString();
@@ -156,7 +156,16 @@ namespace DICOMopener
 
             g.FillRectangle(new SolidBrush(rectangleColor), e.Bounds);
 
-            e.Graphics.DrawString(lb.Items[e.Index].ToString(), e.Font, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+            if (lb.GetSelected(e.Index))
+            {
+                var boldFont = new Font(e.Font, FontStyle.Bold);
+                e.Graphics.DrawString(lb.Items[e.Index].ToString(), boldFont, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+            }
+            else
+            {
+                var regularFont = new Font(e.Font, FontStyle.Regular);
+                e.Graphics.DrawString(lb.Items[e.Index].ToString(), regularFont, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+            }
 
             e.DrawFocusRectangle();
         }
@@ -170,7 +179,7 @@ namespace DICOMopener
             // actualize the list of selected regions indeces
             for (int i = 0; i < lb.Items.Count; i++)
             {
-                if (lb.GetSelected(i) == true)
+                if (lb.GetSelected(i))
                 {
                     int regionIndex = int.Parse(lb.Items[i].ToString());
                     if (!SelectedRegionsIndeces.Contains(regionIndex))
@@ -194,9 +203,157 @@ namespace DICOMopener
             pictureBox_DICOMImage.Image = highlightedDicomImage;
         }
 
+        private void button_saveImage_Click(object sender, EventArgs e)
+        {
+            if (pictureBox_DICOMImage.Image == null)
+            {
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            saveFileDialog.Filter = "Bitmap files (*.bmp)|*.bmp";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                pictureBox_DICOMImage.Image.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+        }
+
+        private void button_saveAllImages_Click(object sender, EventArgs e)
+        {
+            if (_dicomMatrices == null)
+            {
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (folderBrowserDialog.SelectedPath != null)
+                {
+                    for (int i = 0; i < _imagesNumber; i++)
+                    {
+                        string DICOMImageName = folderBrowserDialog.SelectedPath + "\\";
+                        string strIndex = i.ToString();
+                        switch (strIndex.Length)
+                        {
+                            case 1:
+                                DICOMImageName += "00" + strIndex;
+                                break;
+                            case 2:
+                                DICOMImageName += "0" + strIndex;
+                                break;
+                            default:
+                                DICOMImageName += strIndex;
+                                break;
+                        }
+
+                        DICOMImageName += ".bmp";
+                        Bitmap DICOMImage = ImageProcessing.GetBitmapFrom16MatrixWithHeighlights(_dicomMatrices[i],
+                            _ctRegions[i], _segmentsDencity, SelectedRegionsIndeces,
+                            _imageMatrixHeight, _imageMatrixWidth,
+                            _minIntencityBorder, _maxIntencityBorder, _minIntencityLevel, _maxIntencityLevel);
+                        DICOMImage.Save(DICOMImageName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    }
+                }
+            }
+        }
+
+        private void button_saveSegmentedImage_Click(object sender, EventArgs e)
+        {
+            if (pictureBox_segmentedImage.Image == null)
+            {
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            saveFileDialog.Filter = "Bitmap files (*.bmp)|*.bmp";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                pictureBox_segmentedImage.Image.Save(saveFileDialog.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+        }
+
+        private void button_saveAllSegmentedImages_Click(object sender, EventArgs e)
+        {
+            if (_ctRegions == null)
+            {
+                MessageBox.Show("Nothing to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (folderBrowserDialog.SelectedPath != null)
+                {
+                    for (int i = 0; i < _imagesNumber; i++)
+                    {
+                        string segmentedImageName = folderBrowserDialog.SelectedPath + "\\";
+                        string strIndex = i.ToString();
+                        switch (strIndex.Length)
+                        {
+                            case 1:
+                                segmentedImageName += "00" + strIndex;
+                                break;
+                            case 2:
+                                segmentedImageName += "0" + strIndex;
+                                break;
+                            default:
+                                segmentedImageName += strIndex;
+                                break;
+                        }
+
+                        segmentedImageName += ".bmp";
+                        Bitmap segmentedImage = ImageProcessing.GetColoredSegmentedImage(_ctRegions[i],
+                            _imageMatrixHeight, _imageMatrixWidth, _cFactory);
+                        segmentedImage.Save(segmentedImageName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    }
+                }
+            }
+        }
+
         private void button_closeForm_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void SegmentsHighlight_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _dicomMatrices = null;
+            _ctRegions = null;
+            _segmentsDencity = null;
+            _cFactory = null;
+            instanse = null;
+
+            Dispose();
+        }
+
+        private void SegmentsHighlight_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // call garbage collector
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        private void SegmentsHighlight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (trackBar.Maximum == 0)
+                return;
+
+            if (e.KeyChar == (char)Keys.Right)
+            {
+                if (trackBar.Value >= trackBar.Maximum)
+                    return;
+
+                trackBar.Value += 1;
+                return;
+            }
+
+            if (e.KeyChar == (char)Keys.Left)
+            {
+                if (trackBar.Value <= 0)
+                    return;
+
+                trackBar.Value -= 1;
+                return;
+            }
         }
     }
 }
